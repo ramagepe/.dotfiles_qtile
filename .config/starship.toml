@@ -3,8 +3,12 @@ format = """
 $directory$rust$package
 [└─>](bold green) """
 
-#format = """
-#[ ](bold green)$directory$rust$package"""
+[git_status]
+ahead = "⇡${count}"
+behind = "⇣${count}"
+deleted = "x"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+style = "white"
 
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
