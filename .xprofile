@@ -1,0 +1,33 @@
+#########################
+#	      Autostart	      #
+#########################
+
+# Sound control tray
+pasystray &
+
+# Hide mouse when typing
+xbanish &
+
+# Audio volume controller
+#volnoti &
+
+# Apps
+alacritty &
+brave &
+obsidian &
+thunderbird &
+1password &
+pcmanfm &
+carla &
+
+#########################
+#	      Tweaks		      #
+#########################
+
+# Don't Randomly Turn off
+xset s off
+xset -dpms
+xset s noblank
+
+# Speedy keys
+xset r rate 210 40
