@@ -2,6 +2,8 @@ from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from qtile_extras import widget
+from qtile_extras.widget.decorations import PowerLineDecoration
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -67,7 +69,7 @@ keys = [
 groups = []
 
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-group_labels = ["", "", "", "", "", "", "", "漣", "", ""]
+group_labels = [" ", " ", " ", " ", " ", " ", " ", "漣 ", " ", " "]
 group_layouts = ["monadtall" for _ in range(len(group_names))]
 
 for i in range(len(group_names)):
@@ -103,12 +105,19 @@ for i in groups:
         ]
     )
 
-def init_window_border_color():
-    return [["#bb9af7", "#bb9af7"],     # border focus
-            ["#555555", "#555555"]]     # border normal
-            
 
-window_color = init_window_border_color()
+def init_colors():
+    return [["#000000", "#000000"],     # 0 - black
+            ["#1a1b26", "#1a1b26"],     # 1 - dark 80
+            ["#24283b", "#24283b"],     # 2 - dark 70
+            ["#414868", "#414868"],     # 3 - dark 60
+            ["#565f89", "#565f89"],     # 4 - dark 50
+            ["#cfc9c2", "#cfc9c2"],     # 5 - light
+            ["#2ac3de", "#2ac3de"]]     # 6 - contrast color
+
+
+colors = init_colors()
+
 
 def init_layout_theme(border: int, margin: int):
     return {
@@ -116,33 +125,21 @@ def init_layout_theme(border: int, margin: int):
                 "margin": margin,
                 "font": "JetBrainsMono Nerd Font 15",
                 "font_size": 15,
-                "border_focus": window_color[0],
-                "border_normal": window_color[1]
+                "border_focus": colors[4],
+                "border_normal": colors[1]
             }
+
 
 border_layout = init_layout_theme(2, 10)
 borderless_layout = init_layout_theme(0, 0)
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#7dcfff", "#7dcfff"], border_width=2),
     layout.MonadTall(**border_layout),
+    layout.Max(**border_layout),
+    layout.MonadTall(**borderless_layout),
     layout.Max(**borderless_layout),
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
 ]
 
-def init_colors():
-    return [["#000000", "#000000"],     # background
-            ["#bb9af7", "#bb9af7"]]     # border focus
-            
-colors = init_colors()
 
 def nerd_icon(nerdfont_icon, fg_color):
     return widget.TextBox(
@@ -150,7 +147,22 @@ def nerd_icon(nerdfont_icon, fg_color):
         fontsize=15,
         text=nerdfont_icon,
         foreground=fg_color,
-        background=colors[0])
+        **right_powerline,
+        background=colors[1],
+        padding=0)
+
+
+left_powerline = {
+    "decorations": [
+        PowerLineDecoration()
+    ]
+}
+
+right_powerline = {
+    "decorations": [
+        PowerLineDecoration(path='arrow_right')
+    ]
+}
 
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
@@ -164,60 +176,100 @@ screens = [
     Screen(
         top=bar.Bar(
             [
+                widget.CurrentLayoutIcon(
+                    background=colors[1],
+                    **left_powerline,
+                    padding=10),
                 widget.GroupBox(
-                    #active=colors[0],
-                    block_highlight_text_color=colors[1],
+                    block_highlight_text_color=colors[6],
                     highlight_method='text',
-                    this_current_screen_border=colors[1],
-                    padding_x=5
+                    this_current_screen_border=colors[6],
+                    padding_x=8,
+                    background=colors[2],
+                    **left_powerline,
                 ),
-                widget.Prompt(),
-                #widget.CurrentLayout(),
-                #widget.WindowName(),
-                widget.Spacer(),
-                nerd_icon(
-                    "墳 ",
-                    colors[1]
+                widget.Spacer(**right_powerline, background=colors[0]),
+                nerd_icon("墳 ", colors[6]),
+                widget.PulseVolume(
+                    background=colors[1],
+                    padding=5,
+                    **right_powerline),
+                widget.Clock(
+                    format="%Y-%m-%d",
+                    padding=20,
+                    background=colors[2],
+                    **right_powerline
                 ),
-                widget.PulseVolume(),
-                widget.Clock(format="    %Y-%m-%d    %I:%M %p  "),
+                widget.Clock(
+                    format="%I:%M %p",
+                    padding=20,
+                    background=colors[3],
+                    **right_powerline
+                ),
                 widget.Systray(
                     icon_size=18,
-                    background=colors[0]
+                    background=colors[4],
+                    padding=10,
+                    **right_powerline,
                 ),
                 widget.QuickExit(
                     default_text="   ",
-                    countdown_format='[{}]'
+                    countdown_format='[{}]',
+                    background=colors[4],
                 ),
             ],
             bar_size,
-            #border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
 ]
 
+
 #########################################################
 ################ assgin apps to groups ##################
 #########################################################
+
+
 @hook.subscribe.client_new
 def assign_app_group(client):
     d = {}
-    d["1"] = [ "Terminal", "Alacritty", "Code", "Fleet",
-               "terminal", "alacritty", "code", "fleet", ]
-    d["2"] = ["Navigator", "Firefox", "Chromium", "Google-chrome", "Brave", "Brave-browser",
-              "navigator", "firefox", "chromium", "google-chrome", "brave", "brave-browser", ]
+    d["1"] = ["Terminal",
+              "terminal",
+              "Alacritty",
+              "alacritty",
+              "Code",
+              "code",
+              "Fleet",
+              "fleet"]
+    d["2"] = ["Navigator",
+              "navigator",
+              "Firefox",
+              "firefox",
+              "Chromium",
+              "chromium",
+              "Google-chrome",
+              "google-chrome",
+              "Brave",
+              "brave",
+              "Brave-browser",
+              "brave-browser"]
     d["3"] = ["Obsidian", "obsidian", ]
     d["4"] = ["Thunderbird", "thunderbird", "Mail", ]
-    #d["5"] = ["Meld", "meld", "org.gnome.meld" "org.gnome.Meld" ]
-    #d["6"] = ["Vlc","vlc", "Mpv", "mpv" ]
+    # d["5"] = ["Meld", "meld", "org.gnome.meld" "org.gnome.Meld" ]
+    # d["6"] = ["Vlc","vlc", "Mpv", "mpv" ]
     d["7"] = ["1Passsword", "1password", ]
-    d["8"] = ["pcmanfm", "Nemo", "Caja", "Nautilus", "org.gnome.Nautilus", "Pcmanfm", "Pcmanfm-qt",
-              "pcmanfm", "nemo", "caja", "nautilus", "org.gnome.nautilus", "pcmanfm", "pcmanfm-qt", ]
+    d["8"] = ["Pcmanfm",
+              "pcmanfm",
+              "Pcmanfm-qt",
+              "pcmanfm-qt"]
     d["9"] = ["Carla", "carla", ]
-    d["0"] = ["Spotify", "Pragha", "Clementine", "Deadbeef", "Audacious", "Music",
-              "spotify", "pragha", "clementine", "deadbeef", "audacious", "music", ]
-    
+    d["0"] = ["Spotify",
+              "spotify",
+              "Clementine",
+              "clementine",
+              "Audacious",
+              "audacious",
+              "Music",
+              "music"]
     wm_class = client.window.get_wm_class()[0]
 
     for i in range(len(d)):
@@ -230,10 +282,13 @@ def assign_app_group(client):
 ###############         end             #################
 #########################################################
 
+
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
@@ -244,7 +299,7 @@ bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
+        # Run `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
         Match(wm_class='confirm'),
         Match(wm_class='dialog'),

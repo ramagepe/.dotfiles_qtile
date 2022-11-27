@@ -31,3 +31,6 @@ alias snap-list-home="sudo snapper -c home list"
 
 # Show services on the running network
 alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
+
+# Emacs client
+alias emacs="emacsclient -c -a emacs &"

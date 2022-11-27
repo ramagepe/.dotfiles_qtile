@@ -11,6 +11,9 @@ xbanish &
 # Audio volume controller
 #volnoti &
 
+# Emacs client
+emacs --daemon &
+
 # Apps
 alacritty &
 brave &
