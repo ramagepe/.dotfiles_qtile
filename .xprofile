@@ -2,6 +2,9 @@
 #	      Autostart	      #
 #########################
 
+# NetworkManager applet
+nm-applet --indicator &
+
 # Sound control tray
 pasystray &
 
@@ -11,9 +14,6 @@ xbanish &
 # Audio volume controller
 #volnoti &
 
-# Emacs client
-emacs --daemon &
-
 # Apps
 alacritty &
 brave &
@@ -22,6 +22,8 @@ thunderbird &
 1password &
 pcmanfm &
 carla &
+
+~/.fehbg &
 
 #########################
 #	      Tweaks		      #

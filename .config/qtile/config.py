@@ -18,6 +18,7 @@ keys = [
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod], "d", lazy.spawn("rofi -show drun")),
+    Key([mod, "shift"], "d", lazy.spawn("sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
     Key([mod], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
     
     # Move windows between left/right columns or move up/down in current stack.
@@ -69,7 +70,7 @@ keys = [
 groups = []
 
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-group_labels = [" ", " ", " ", " ", " ", " ", " ", "漣 ", " ", " "]
+group_labels = ["", "", "", "", "", "", "", "漣", "", ""]
 group_layouts = ["monadtall" for _ in range(len(group_names))]
 
 for i in range(len(group_names)):
@@ -106,18 +107,22 @@ for i in groups:
     )
 
 
+# COLORS
+
 def init_colors():
-    return [["#000000", "#000000"],     # 0 - black
+    return [["#0f1418", "#0f1418"],     # 0 - blackground
             ["#1a1b26", "#1a1b26"],     # 1 - dark 80
             ["#24283b", "#24283b"],     # 2 - dark 70
             ["#414868", "#414868"],     # 3 - dark 60
             ["#565f89", "#565f89"],     # 4 - dark 50
             ["#cfc9c2", "#cfc9c2"],     # 5 - light
-            ["#2ac3de", "#2ac3de"]]     # 6 - contrast color
+            ["#7dcfff", "#7dcfff"]]     # 6 - contrast color
 
 
 colors = init_colors()
 
+
+# LAYOUTS
 
 def init_layout_theme(border: int, margin: int):
     return {
@@ -126,20 +131,22 @@ def init_layout_theme(border: int, margin: int):
                 "font": "JetBrainsMono Nerd Font 15",
                 "font_size": 15,
                 "border_focus": colors[4],
-                "border_normal": colors[1]
+                "border_normal": colors[2]
             }
 
 
-border_layout = init_layout_theme(2, 10)
+border_layout = init_layout_theme(2, 6)
 borderless_layout = init_layout_theme(0, 0)
 
 layouts = [
     layout.MonadTall(**border_layout),
     layout.Max(**border_layout),
-    layout.MonadTall(**borderless_layout),
-    layout.Max(**borderless_layout),
+    # layout.MonadTall(**borderless_layout),
+    # layout.Max(**borderless_layout),
 ]
 
+
+# BAR
 
 def nerd_icon(nerdfont_icon, fg_color):
     return widget.TextBox(
@@ -148,7 +155,7 @@ def nerd_icon(nerdfont_icon, fg_color):
         text=nerdfont_icon,
         foreground=fg_color,
         **right_powerline,
-        background=colors[1],
+        background=colors[4],
         padding=0)
 
 
@@ -181,41 +188,48 @@ screens = [
                     **left_powerline,
                     padding=10),
                 widget.GroupBox(
+                    active=colors[5],
+                    inactive=colors[3],
                     block_highlight_text_color=colors[6],
                     highlight_method='text',
                     this_current_screen_border=colors[6],
-                    padding_x=8,
+                    padding=10,
                     background=colors[2],
                     **left_powerline,
                 ),
                 widget.Spacer(**right_powerline, background=colors[0]),
-                nerd_icon("墳 ", colors[6]),
                 widget.PulseVolume(
-                    background=colors[1],
-                    padding=5,
+                    fmt='墳  {}',
+                    background=colors[4],
+                    foreground=colors[5],
+                    padding=20,
                     **right_powerline),
                 widget.Clock(
                     format="%Y-%m-%d",
                     padding=20,
-                    background=colors[2],
+                    background=colors[3],
+                    foreground=colors[5],
                     **right_powerline
                 ),
                 widget.Clock(
                     format="%I:%M %p",
                     padding=20,
-                    background=colors[3],
+                    background=colors[2],
+                    foreground=colors[5],
                     **right_powerline
                 ),
                 widget.Systray(
                     icon_size=18,
-                    background=colors[4],
-                    padding=10,
+                    background=colors[1],
+                    foreground=colors[5],
+                    padding=20,
                     **right_powerline,
                 ),
                 widget.QuickExit(
                     default_text="   ",
                     countdown_format='[{}]',
-                    background=colors[4],
+                    background=colors[1],
+                    foreground=colors[5],
                 ),
             ],
             bar_size,
@@ -330,12 +344,4 @@ auto_minimize = True
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
 
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"

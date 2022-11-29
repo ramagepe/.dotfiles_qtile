@@ -19,9 +19,13 @@ alias nvim="lvim"
 alias config-snapper="sudo nvim /etc/snapper/configs"
 alias config-aliases="nvim ~/.custom_aliases"
 alias config-qtile="nvim ~/.config/qtile/config.py"
+alias config-starship="nvim ~/.config/starship.toml"
+alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
+alias config-autostart="nvim ~/.xprofile"
 
 # Cleanup orphaned packages
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+alias orphans="pacman -Qdt"
 
 # Snapper shortcuts
 alias snap-root="sudo snapper -c root create -d"
@@ -33,4 +37,7 @@ alias snap-list-home="sudo snapper -c home list"
 alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
 
 # Emacs client
-alias emacs="emacsclient -c -a emacs &"
+#alias emacs="emacsclient -c -a emacs &"
+
+# Feh background
+alias backg="feh --bg-scale"
