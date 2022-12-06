@@ -11,8 +11,14 @@ pasystray &
 # Hide mouse when typing
 xbanish &
 
+# Flameshot screenshots app
+flameshot &
+
 # Audio volume controller
 #volnoti &
+
+# Compositor
+picom -CGb &
 
 # Apps
 alacritty &

@@ -1,9 +1,9 @@
-from libqtile import bar, layout, widget, hook
+from libqtile import bar, layout, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from qtile_extras import widget
 from qtile_extras.widget.decorations import PowerLineDecoration
+from qtile_extras import widget
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -20,14 +20,14 @@ keys = [
     Key([mod], "d", lazy.spawn("rofi -show drun")),
     Key([mod, "shift"], "d", lazy.spawn("sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
     Key([mod], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
-    
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -35,7 +35,7 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    
+
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -47,19 +47,19 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    
+
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    
+
     # INCREASE/DECREASE/MUTE VOLUME
     Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 5")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer --increase 5")),
-    
+
     # Play / pause / next audio
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
@@ -73,7 +73,7 @@ group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 group_labels = ["", "", "", "", "", "", "", "漣", "", ""]
 group_layouts = ["monadtall" for _ in range(len(group_names))]
 
-for i in range(len(group_names)):
+for i, _ in enumerate(group_names):
     groups.append(
             Group(
                 name = group_names[i],
@@ -90,14 +90,14 @@ for i in groups:
                 [mod],
                 i.name,
                 lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
+                desc=f"Switch to group {format(i.name)}",
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
                 [mod, "shift"],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
+                desc=f"Switch to & move focused window to group {format(i.name)}",
             ),
             # Or, use below if you prefer not to switch to that group.
             # # mod1 + shift + letter of group = move focused window to group
@@ -185,25 +185,30 @@ screens = [
             [
                 widget.CurrentLayoutIcon(
                     background=colors[1],
-                    **left_powerline,
-                    padding=10),
+                    padding=10,
+                    **left_powerline
+                ),
                 widget.GroupBox(
                     active=colors[5],
                     inactive=colors[3],
                     block_highlight_text_color=colors[6],
                     highlight_method='text',
                     this_current_screen_border=colors[6],
-                    padding=10,
+                    padding=12,
                     background=colors[2],
-                    **left_powerline,
+                    **left_powerline
                 ),
-                widget.Spacer(**right_powerline, background=colors[0]),
+                widget.Spacer(
+                    background=colors[0],
+                    **right_powerline
+                ),
                 widget.PulseVolume(
                     fmt='墳  {}',
                     background=colors[4],
                     foreground=colors[5],
                     padding=20,
-                    **right_powerline),
+                    **right_powerline
+                ),
                 widget.Clock(
                     format="%Y-%m-%d",
                     padding=20,
@@ -223,13 +228,13 @@ screens = [
                     background=colors[1],
                     foreground=colors[5],
                     padding=20,
-                    **right_powerline,
+                    **right_powerline
                 ),
                 widget.QuickExit(
                     default_text="   ",
                     countdown_format='[{}]',
                     background=colors[1],
-                    foreground=colors[5],
+                    foreground=colors[5]
                 ),
             ],
             bar_size,
@@ -266,16 +271,21 @@ def assign_app_group(client):
               "brave",
               "Brave-browser",
               "brave-browser"]
-    d["3"] = ["Obsidian", "obsidian", ]
-    d["4"] = ["Thunderbird", "thunderbird", "Mail", ]
+    d["3"] = ["Obsidian", 
+              "obsidian"]
+    d["4"] = ["Thunderbird", 
+              "thunderbird", 
+              "Mail"]
     # d["5"] = ["Meld", "meld", "org.gnome.meld" "org.gnome.Meld" ]
     # d["6"] = ["Vlc","vlc", "Mpv", "mpv" ]
-    d["7"] = ["1Passsword", "1password", ]
+    d["7"] = ["1Passsword", 
+              "1password"]
     d["8"] = ["Pcmanfm",
               "pcmanfm",
               "Pcmanfm-qt",
               "pcmanfm-qt"]
-    d["9"] = ["Carla", "carla", ]
+    d["9"] = ["Carla", 
+              "carla"]
     d["0"] = ["Spotify",
               "spotify",
               "Clementine",
@@ -312,6 +322,9 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
+    border_focus=colors[4],
+    border_normal=colors[2],
+    border_width=2,
     float_rules=[
         # Run `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -331,6 +344,7 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(title='Open File'),
+        Match(title='galculator'),
     ]
 )
 auto_fullscreen = True

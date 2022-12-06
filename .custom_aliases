@@ -22,6 +22,11 @@ alias config-qtile="nvim ~/.config/qtile/config.py"
 alias config-starship="nvim ~/.config/starship.toml"
 alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
 alias config-autostart="nvim ~/.xprofile"
+alias config-picom="nvim ~/.config/picom/picom.conf"
+
+# Logs shortcuts
+alias log-qtile="sudo nvim ~/.local/share/qtile/qtile.log"
+
 
 # Cleanup orphaned packages
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
@@ -41,3 +46,6 @@ alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
 
 # Feh background
 alias backg="feh --bg-scale"
+
+# Radeon monitoring
+alias gpu="radeontop"
