@@ -1,9 +1,11 @@
-from libqtile import bar, layout, hook
+from libqtile import bar, layout, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from qtile_extras.widget.decorations import PowerLineDecoration
 from qtile_extras import widget
+
+from scripts import storage
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -148,15 +150,15 @@ layouts = [
 
 # BAR
 
-def nerd_icon(nerdfont_icon, fg_color):
+def nerd_icon(nerdfont_icon, bg_color, fg_color, powerline):
     return widget.TextBox(
         font="JetBrainsMono Nerd Font",
         fontsize=15,
         text=nerdfont_icon,
+        background=bg_color,
         foreground=fg_color,
-        **right_powerline,
-        background=colors[4],
-        padding=0)
+        **powerline
+    )
 
 
 left_powerline = {
@@ -200,6 +202,47 @@ screens = [
                 ),
                 widget.Spacer(
                     background=colors[0],
+                    length=bar.STRETCH,
+                    **left_powerline
+                ),
+                widget.Memory(
+                    padding=15,
+                    format="  {MemUsed:.2f}{mm}",
+                    measure_mem='G',
+                    background=colors[2],
+                    foreground=colors[5],
+                    update_interval=2,
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
+                    },
+                    **left_powerline
+                ),
+                widget.GenPollText(
+                    fmt='  {}',
+                    padding=15,
+                    background=colors[3],
+                    foreground=colors[5],
+                    update_interval=5,
+                    func=lambda: storage.diskspace('FreeSpace'),
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
+                    },
+                    **right_powerline
+                ),
+                widget.CPU(
+                    padding=15,
+                    format="﬙  {load_percent}%",
+                    background=colors[2],
+                    foreground=colors[5],
+                    update_interval=2,
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
+                    },
+                    **right_powerline
+                ),
+                widget.Spacer(
+                    background=colors[0],
+                    length=200,
                     **right_powerline
                 ),
                 widget.PulseVolume(
