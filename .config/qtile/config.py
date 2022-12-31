@@ -2,7 +2,7 @@ from libqtile import bar, layout, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from qtile_extras.widget.decorations import PowerLineDecoration
+from qtile_extras.widget.decorations import PowerLineDecoration, BorderDecoration
 from qtile_extras import widget
 
 from scripts import storage
@@ -22,6 +22,7 @@ keys = [
     Key([mod], "d", lazy.spawn("rofi -show drun")),
     Key([mod, "shift"], "d", lazy.spawn("sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
     Key([mod], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
+    Key([], "Print", lazy.spawn('flameshot gui')),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -160,6 +161,16 @@ def nerd_icon(nerdfont_icon, bg_color, fg_color, powerline):
         **powerline
     )
 
+def border_decoration(color):
+    return {
+        "decorations": [
+            BorderDecoration(
+                colour=color,
+                border_width=[0, 0, 3, 0],
+                padding_x=10
+            )
+        ]
+    }
 
 left_powerline = {
     "decorations": [
@@ -203,46 +214,45 @@ screens = [
                 widget.Spacer(
                     background=colors[0],
                     length=bar.STRETCH,
-                    **left_powerline
                 ),
                 widget.Memory(
                     padding=15,
                     format="  {MemUsed:.2f}{mm}",
                     measure_mem='G',
-                    background=colors[2],
+                    background=colors[0],
                     foreground=colors[5],
                     update_interval=2,
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **left_powerline
+                    **border_decoration(colors[2])
                 ),
                 widget.GenPollText(
                     fmt='  {}',
                     padding=15,
-                    background=colors[3],
+                    background=colors[0],
                     foreground=colors[5],
                     update_interval=5,
                     func=lambda: storage.diskspace('FreeSpace'),
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **right_powerline
+                    **border_decoration(colors[3])
                 ),
                 widget.CPU(
                     padding=15,
                     format="﬙  {load_percent}%",
-                    background=colors[2],
+                    background=colors[0],
                     foreground=colors[5],
                     update_interval=2,
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **right_powerline
+                    **border_decoration(colors[2])
                 ),
                 widget.Spacer(
                     background=colors[0],
-                    length=200,
+                    length=bar.STRETCH,
                     **right_powerline
                 ),
                 widget.PulseVolume(
