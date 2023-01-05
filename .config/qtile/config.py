@@ -260,6 +260,7 @@ screens = [
                     background=colors[4],
                     foreground=colors[5],
                     padding=20,
+                    update_interval=0.01,
                     **right_powerline
                 ),
                 widget.Clock(
