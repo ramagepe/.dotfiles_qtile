@@ -1,9 +1,9 @@
-from libqtile import bar, layout, hook, qtile
+from libqtile import bar, layout, hook, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from qtile_extras.widget.decorations import PowerLineDecoration, BorderDecoration
-from qtile_extras import widget
+# from qtile_extras.widget.decorations import PowerLineDecoration, BorderDecoration
+# from qtile_extras import widget
 
 from scripts import storage
 
@@ -18,27 +18,81 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "Left", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "Right", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "Down", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "Up", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "space", lazy.layout.next(),
+        desc="Move window focus to other window"),
     Key([mod], "d", lazy.spawn("rofi -show drun")),
-    Key([mod, "shift"], "d", lazy.spawn("sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
+    Key([mod, "shift"], "d", lazy.spawn(
+        "sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
     Key([mod], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
     Key([], "Print", lazy.spawn('flameshot gui')),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
+        desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
+        desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
+    # Key([mod, "control"], "h", lazy.layout.grow_left(),
+    #    desc="Grow window to the left"),
+    # Key([mod, "control"], "l", lazy.layout.grow_right(),
+    #    desc="Grow window to the right"),
+    #Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    #Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    #Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    # RESIZE UP, DOWN, LEFT, RIGHT
+    Key([mod, "control"], "l",
+        lazy.layout.grow_right(),
+        lazy.layout.grow(),
+        lazy.layout.increase_ratio(),
+        lazy.layout.delete(),
+        ),
+    Key([mod, "control"], "Right",
+        lazy.layout.grow_right(),
+        lazy.layout.grow(),
+        lazy.layout.increase_ratio(),
+        lazy.layout.delete(),
+        ),
+    Key([mod, "control"], "h",
+        lazy.layout.grow_left(),
+        lazy.layout.shrink(),
+        lazy.layout.decrease_ratio(),
+        lazy.layout.add(),
+        ),
+    Key([mod, "control"], "Left",
+        lazy.layout.grow_left(),
+        lazy.layout.shrink(),
+        lazy.layout.decrease_ratio(),
+        lazy.layout.add(),
+        ),
+    Key([mod, "control"], "k",
+        lazy.layout.grow_up(),
+        lazy.layout.grow(),
+        lazy.layout.decrease_nmaster(),
+        ),
+    Key([mod, "control"], "Up",
+        lazy.layout.grow_up(),
+        lazy.layout.grow(),
+        lazy.layout.decrease_nmaster(),
+        ),
+    Key([mod, "control"], "j",
+        lazy.layout.grow_down(),
+        lazy.layout.shrink(),
+        lazy.layout.increase_nmaster(),
+        ),
+    Key([mod, "control"], "Down",
+        lazy.layout.grow_down(),
+        lazy.layout.shrink(),
+        lazy.layout.increase_nmaster(),
+        ),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -78,12 +132,12 @@ group_layouts = ["monadtall" for _ in range(len(group_names))]
 
 for i, _ in enumerate(group_names):
     groups.append(
-            Group(
-                name = group_names[i],
-                layout = group_layouts[i].lower(),
-                label = group_labels[i]
-                )
-            )
+        Group(
+            name=group_names[i],
+            layout=group_layouts[i].lower(),
+            label=group_labels[i]
+        )
+    )
 
 for i in groups:
     keys.extend(
@@ -129,13 +183,13 @@ colors = init_colors()
 
 def init_layout_theme(border: int, margin: int):
     return {
-                "border_width": border,
-                "margin": margin,
-                "font": "JetBrainsMono Nerd Font 15",
+        "border_width": border,
+        "margin": margin,
+        "font": "JetBrainsMono Nerd Font 15",
                 "font_size": 15,
                 "border_focus": colors[4],
                 "border_normal": colors[2]
-            }
+    }
 
 
 border_layout = init_layout_theme(2, 6)
@@ -161,28 +215,31 @@ def nerd_icon(nerdfont_icon, bg_color, fg_color, powerline):
         **powerline
     )
 
-def border_decoration(color):
-    return {
-        "decorations": [
-            BorderDecoration(
-                colour=color,
-                border_width=[0, 0, 3, 0],
-                padding_x=10
-            )
-        ]
-    }
 
-left_powerline = {
-    "decorations": [
-        PowerLineDecoration()
-    ]
-}
+# def border_decoration(color):
+#     return {
+#         "decorations": [
+#             BorderDecoration(
+#                 colour=color,
+#                 border_width=[0, 0, 3, 0],
+#                 padding_x=10
+#             )
+#         ]
+#     }
 
-right_powerline = {
-    "decorations": [
-        PowerLineDecoration(path='arrow_right')
-    ]
-}
+
+# left_powerline = {
+#     "decorations": [
+#         PowerLineDecoration()
+#     ]
+# }
+
+
+# right_powerline = {
+#     "decorations": [
+#         PowerLineDecoration(path='arrow_right')
+#     ]
+# }
 
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
@@ -199,7 +256,7 @@ screens = [
                 widget.CurrentLayoutIcon(
                     background=colors[1],
                     padding=10,
-                    **left_powerline
+                    # **left_powerline
                 ),
                 widget.GroupBox(
                     active=colors[5],
@@ -209,7 +266,7 @@ screens = [
                     this_current_screen_border=colors[6],
                     padding=12,
                     background=colors[2],
-                    **left_powerline
+                    # **left_powerline
                 ),
                 widget.Spacer(
                     background=colors[0],
@@ -225,7 +282,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **border_decoration(colors[2])
+                    # **border_decoration(colors[2])
                 ),
                 widget.GenPollText(
                     fmt='  {}',
@@ -237,7 +294,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **border_decoration(colors[3])
+                    # **border_decoration(colors[3])
                 ),
                 widget.CPU(
                     padding=15,
@@ -248,12 +305,12 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **border_decoration(colors[2])
+                    # **border_decoration(colors[2])
                 ),
                 widget.Spacer(
                     background=colors[0],
                     length=bar.STRETCH,
-                    **right_powerline
+                    # **right_powerline
                 ),
                 widget.PulseVolume(
                     fmt='墳  {}',
@@ -261,28 +318,28 @@ screens = [
                     foreground=colors[5],
                     padding=20,
                     update_interval=0.01,
-                    **right_powerline
+                    # **right_powerline
                 ),
                 widget.Clock(
                     format="%Y-%m-%d",
                     padding=20,
                     background=colors[3],
                     foreground=colors[5],
-                    **right_powerline
+                    # **right_powerline
                 ),
                 widget.Clock(
                     format="%I:%M %p",
                     padding=20,
                     background=colors[2],
                     foreground=colors[5],
-                    **right_powerline
+                    # **right_powerline
                 ),
                 widget.Systray(
                     icon_size=18,
                     background=colors[1],
                     foreground=colors[5],
                     padding=20,
-                    **right_powerline
+                    # **right_powerline
                 ),
                 widget.QuickExit(
                     default_text="   ",
@@ -325,20 +382,20 @@ def assign_app_group(client):
               "brave",
               "Brave-browser",
               "brave-browser"]
-    d["3"] = ["Obsidian", 
+    d["3"] = ["Obsidian",
               "obsidian"]
-    d["4"] = ["Thunderbird", 
-              "thunderbird", 
+    d["4"] = ["Thunderbird",
+              "thunderbird",
               "Mail"]
     # d["5"] = ["Meld", "meld", "org.gnome.meld" "org.gnome.Meld" ]
     # d["6"] = ["Vlc","vlc", "Mpv", "mpv" ]
-    d["7"] = ["1Passsword", 
+    d["7"] = ["1Passsword",
               "1password"]
     d["8"] = ["Pcmanfm",
               "pcmanfm",
               "Pcmanfm-qt",
               "pcmanfm-qt"]
-    d["9"] = ["Carla", 
+    d["9"] = ["Carla",
               "carla"]
     d["0"] = ["Spotify",
               "spotify",
