@@ -1,9 +1,9 @@
-from libqtile import bar, layout, hook, qtile
+from libqtile import bar, layout, hook, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from qtile_extras.widget.decorations import PowerLineDecoration, BorderDecoration
-from qtile_extras import widget
+# from qtile_extras.widget.decorations import PowerLineDecoration, BorderDecoration
+# from qtile_extras import widget
 
 from scripts import storage
 
@@ -18,6 +18,11 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "Up", lazy.layout.up()),
+    Key([mod], "Down", lazy.layout.down()),
+    Key([mod], "Left", lazy.layout.left()),
+    Key([mod], "Right", lazy.layout.right()),
+
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod], "d", lazy.spawn("rofi -show drun")),
     Key([mod, "shift"], "d", lazy.spawn("sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
@@ -161,28 +166,28 @@ def nerd_icon(nerdfont_icon, bg_color, fg_color, powerline):
         **powerline
     )
 
-def border_decoration(color):
-    return {
-        "decorations": [
-            BorderDecoration(
-                colour=color,
-                border_width=[0, 0, 3, 0],
-                padding_x=10
-            )
-        ]
-    }
+#def border_decoration(color):
+#    return {
+#        "decorations": [
+#            BorderDecoration(
+#                colour=color,
+#                border_width=[0, 0, 3, 0],
+#                padding_x=10
+#            )
+#        ]
+#    }
 
-left_powerline = {
-    "decorations": [
-        PowerLineDecoration()
-    ]
-}
+#left_powerline = {
+#   "decorations": [
+#        PowerLineDecoration()
+#    ]
+#}
 
-right_powerline = {
-    "decorations": [
-        PowerLineDecoration(path='arrow_right')
-    ]
-}
+#right_powerline = {
+#    "decorations": [
+#        PowerLineDecoration(path='arrow_right')
+#    ]
+#}
 
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
@@ -199,7 +204,7 @@ screens = [
                 widget.CurrentLayoutIcon(
                     background=colors[1],
                     padding=10,
-                    **left_powerline
+                    #**left_powerline
                 ),
                 widget.GroupBox(
                     active=colors[5],
@@ -209,7 +214,7 @@ screens = [
                     this_current_screen_border=colors[6],
                     padding=12,
                     background=colors[2],
-                    **left_powerline
+                    #*left_powerline
                 ),
                 widget.Spacer(
                     background=colors[0],
@@ -225,7 +230,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **border_decoration(colors[2])
+                    #**border_decoration(colors[2])
                 ),
                 widget.GenPollText(
                     fmt='  {}',
@@ -237,7 +242,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **border_decoration(colors[3])
+                    #**border_decoration(colors[3])
                 ),
                 widget.CPU(
                     padding=15,
@@ -248,12 +253,12 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    **border_decoration(colors[2])
+                    #**border_decoration(colors[2])
                 ),
                 widget.Spacer(
                     background=colors[0],
                     length=bar.STRETCH,
-                    **right_powerline
+                    #**right_powerline
                 ),
                 widget.PulseVolume(
                     fmt='墳  {}',
@@ -261,28 +266,28 @@ screens = [
                     foreground=colors[5],
                     padding=20,
                     update_interval=0.01,
-                    **right_powerline
+                    #**right_powerline
                 ),
                 widget.Clock(
                     format="%Y-%m-%d",
                     padding=20,
                     background=colors[3],
                     foreground=colors[5],
-                    **right_powerline
+                    #**right_powerline
                 ),
                 widget.Clock(
                     format="%I:%M %p",
                     padding=20,
                     background=colors[2],
                     foreground=colors[5],
-                    **right_powerline
+                    #**right_powerline
                 ),
                 widget.Systray(
                     icon_size=18,
                     background=colors[1],
                     foreground=colors[5],
                     padding=20,
-                    **right_powerline
+                    #**right_powerline
                 ),
                 widget.QuickExit(
                     default_text="   ",
