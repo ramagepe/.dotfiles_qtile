@@ -2,6 +2,9 @@
 #	      Autostart	      #
 #########################
 
+# Bluetooth applet
+blueman-applet &
+
 # NetworkManager applet
 nm-applet --indicator &
 

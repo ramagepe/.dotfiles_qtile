@@ -24,6 +24,9 @@ alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
 alias config-autostart="nvim ~/.xprofile"
 alias config-picom="nvim ~/.config/picom/picom.conf"
 
+# Debugging shorcuts
+alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
+
 # Logs shortcuts
 alias log-qtile="sudo nvim ~/.local/share/qtile/qtile.log"
 
@@ -34,9 +37,11 @@ alias orphans="pacman -Qdt"
 
 # Snapper shortcuts
 alias snap-root="sudo snapper -c root create -d"
-alias snap-home="sudo snapper -c root create -d"
+alias snap-home="sudo snapper -c home create -d"
 alias snap-list-root="sudo snapper -c root list"
 alias snap-list-home="sudo snapper -c home list"
+alias snap-delete-root="sudo snapper -c root delete"
+alias snap-delete-home="sudo snapper -c home delete"
 
 # Show services on the running network
 alias net-services="avahi-browse --all --ignore-local --resolve --terminate"

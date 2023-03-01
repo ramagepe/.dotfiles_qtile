@@ -1,3 +1,5 @@
 .config/qtile/__pycache__/config.cpython-310.pyc
 .config/qtile/__pycache__/*
 .config/qtile/scripts/__pycache__/*
+.config/qtile/.vscode/
+.config/qtile/.vscode/*
