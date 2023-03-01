@@ -1,43 +1,45 @@
-from libqtile import bar, layout, hook, qtile, widget
+from libqtile import bar, layout, hook, qtile
+# from libqtile import widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-# from qtile_extras.widget.decorations import PowerLineDecoration, BorderDecoration
-# from qtile_extras import widget
+from qtile_extras import widget
+from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoration
 
 from scripts import storage
 
-mod = "mod4"
+MOD_KEY = "mod4"
 terminal = guess_terminal()
 
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "Left", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "Right", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "Down", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "Up", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(),
+    Key([MOD_KEY], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([MOD_KEY], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([MOD_KEY], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([MOD_KEY], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([MOD_KEY], "Left", lazy.layout.left(), desc="Move focus to left"),
+    Key([MOD_KEY], "Right", lazy.layout.right(), desc="Move focus to right"),
+    Key([MOD_KEY], "Down", lazy.layout.down(), desc="Move focus down"),
+    Key([MOD_KEY], "Up", lazy.layout.up(), desc="Move focus up"),
+    Key([MOD_KEY], "space", lazy.layout.next(),
         desc="Move window focus to other window"),
-    Key([mod], "d", lazy.spawn("rofi -show drun")),
-    Key([mod, "shift"], "d", lazy.spawn(
+    Key([MOD_KEY], "d", lazy.spawn("rofi -show drun")),
+    Key([MOD_KEY, "shift"], "d", lazy.spawn(
         "sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
-    Key([mod], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
+    Key([MOD_KEY], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
     Key([], "Print", lazy.spawn('flameshot gui')),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
+    Key([MOD_KEY, "shift"], "h", lazy.layout.shuffle_left(),
         desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
+    Key([MOD_KEY, "shift"], "l", lazy.layout.shuffle_right(),
         desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([MOD_KEY, "shift"], "j", lazy.layout.shuffle_down(),
+        desc="Move window down"),
+    Key([MOD_KEY, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
@@ -49,46 +51,46 @@ keys = [
     #Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     #Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # RESIZE UP, DOWN, LEFT, RIGHT
-    Key([mod, "control"], "l",
+    Key([MOD_KEY, "control"], "l",
         lazy.layout.grow_right(),
         lazy.layout.grow(),
         lazy.layout.increase_ratio(),
         lazy.layout.delete(),
         ),
-    Key([mod, "control"], "Right",
+    Key([MOD_KEY, "control"], "Right",
         lazy.layout.grow_right(),
         lazy.layout.grow(),
         lazy.layout.increase_ratio(),
         lazy.layout.delete(),
         ),
-    Key([mod, "control"], "h",
+    Key([MOD_KEY, "control"], "h",
         lazy.layout.grow_left(),
         lazy.layout.shrink(),
         lazy.layout.decrease_ratio(),
         lazy.layout.add(),
         ),
-    Key([mod, "control"], "Left",
+    Key([MOD_KEY, "control"], "Left",
         lazy.layout.grow_left(),
         lazy.layout.shrink(),
         lazy.layout.decrease_ratio(),
         lazy.layout.add(),
         ),
-    Key([mod, "control"], "k",
+    Key([MOD_KEY, "control"], "k",
         lazy.layout.grow_up(),
         lazy.layout.grow(),
         lazy.layout.decrease_nmaster(),
         ),
-    Key([mod, "control"], "Up",
+    Key([MOD_KEY, "control"], "Up",
         lazy.layout.grow_up(),
         lazy.layout.grow(),
         lazy.layout.decrease_nmaster(),
         ),
-    Key([mod, "control"], "j",
+    Key([MOD_KEY, "control"], "j",
         lazy.layout.grow_down(),
         lazy.layout.shrink(),
         lazy.layout.increase_nmaster(),
         ),
-    Key([mod, "control"], "Down",
+    Key([MOD_KEY, "control"], "Down",
         lazy.layout.grow_down(),
         lazy.layout.shrink(),
         lazy.layout.increase_nmaster(),
@@ -98,19 +100,20 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key(
-        [mod, "shift"],
+        [MOD_KEY, "shift"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([MOD_KEY], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([MOD_KEY], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([MOD_KEY], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([MOD_KEY, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([MOD_KEY, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([MOD_KEY], "r", lazy.spawncmd(),
+        desc="Spawn a command using a prompt widget"),
 
     # INCREASE/DECREASE/MUTE VOLUME
     Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute")),
@@ -144,14 +147,14 @@ for i in groups:
         [
             # mod1 + letter of group = switch to group
             Key(
-                [mod],
+                [MOD_KEY],
                 i.name,
                 lazy.group[i.name].toscreen(),
                 desc=f"Switch to group {format(i.name)}",
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
-                [mod, "shift"],
+                [MOD_KEY, "shift"],
                 i.name,
                 lazy.window.togroup(i.name, switch_group=True),
                 desc=f"Switch to & move focused window to group {format(i.name)}",
@@ -216,30 +219,30 @@ def nerd_icon(nerdfont_icon, bg_color, fg_color, powerline):
     )
 
 
-# def border_decoration(color):
-#     return {
-#         "decorations": [
-#             BorderDecoration(
-#                 colour=color,
-#                 border_width=[0, 0, 3, 0],
-#                 padding_x=10
-#             )
-#         ]
-#     }
+def border_decoration(color):
+    return {
+        "decorations": [
+            BorderDecoration(
+                colour=color,
+                border_width=[0, 0, 3, 0],
+                padding_x=10
+            )
+        ]
+    }
 
 
-# left_powerline = {
-#     "decorations": [
-#         PowerLineDecoration()
-#     ]
-# }
+left_powerline = {
+    "decorations": [
+        PowerLineDecoration()
+    ]
+}
 
 
-# right_powerline = {
-#     "decorations": [
-#         PowerLineDecoration(path='arrow_right')
-#     ]
-# }
+right_powerline = {
+    "decorations": [
+        PowerLineDecoration(path='arrow_right')
+    ]
+}
 
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
@@ -247,7 +250,7 @@ widget_defaults = dict(
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
-bar_size = 24
+BAR_SIZE = 24
 
 screens = [
     Screen(
@@ -256,7 +259,7 @@ screens = [
                 widget.CurrentLayoutIcon(
                     background=colors[1],
                     padding=10,
-                    # **left_powerline
+                    **left_powerline
                 ),
                 widget.GroupBox(
                     active=colors[5],
@@ -266,7 +269,7 @@ screens = [
                     this_current_screen_border=colors[6],
                     padding=12,
                     background=colors[2],
-                    # **left_powerline
+                    **left_powerline
                 ),
                 widget.Spacer(
                     background=colors[0],
@@ -282,7 +285,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    # **border_decoration(colors[2])
+                    **border_decoration(colors[3])
                 ),
                 widget.GenPollText(
                     fmt='  {}',
@@ -294,7 +297,7 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    # **border_decoration(colors[3])
+                    **border_decoration(colors[4])
                 ),
                 widget.CPU(
                     padding=15,
@@ -305,12 +308,12 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
                     },
-                    # **border_decoration(colors[2])
+                    **border_decoration(colors[3])
                 ),
                 widget.Spacer(
                     background=colors[0],
                     length=bar.STRETCH,
-                    # **right_powerline
+                    **right_powerline
                 ),
                 widget.PulseVolume(
                     fmt='墳  {}',
@@ -318,28 +321,28 @@ screens = [
                     foreground=colors[5],
                     padding=20,
                     update_interval=0.01,
-                    # **right_powerline
+                    **right_powerline
                 ),
                 widget.Clock(
                     format="%Y-%m-%d",
                     padding=20,
                     background=colors[3],
                     foreground=colors[5],
-                    # **right_powerline
+                    **right_powerline
                 ),
                 widget.Clock(
                     format="%I:%M %p",
                     padding=20,
                     background=colors[2],
                     foreground=colors[5],
-                    # **right_powerline
+                    **right_powerline
                 ),
                 widget.Systray(
                     icon_size=18,
                     background=colors[1],
                     foreground=colors[5],
                     padding=20,
-                    # **right_powerline
+                    **right_powerline
                 ),
                 widget.QuickExit(
                     default_text="   ",
@@ -348,7 +351,7 @@ screens = [
                     foreground=colors[5]
                 ),
             ],
-            bar_size,
+            BAR_SIZE,
         ),
     ),
 ]
@@ -420,11 +423,11 @@ def assign_app_group(client):
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
+    Drag([MOD_KEY], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
+    Drag([MOD_KEY], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
+    Click([MOD_KEY], "Button2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None
