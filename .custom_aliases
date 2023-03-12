@@ -13,7 +13,7 @@ alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/p
 alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
 
 # Neovim patch
-alias nvim="lvim"
+#alias nvim="lvim"
 
 # Config shortcuts
 alias config-snapper="sudo nvim /etc/snapper/configs"

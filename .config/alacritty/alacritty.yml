@@ -1,16 +1,23 @@
 import:
-  - ~/.config/alacritty/themes/tokyo-night.yml
+#  - ~/.config/alacritty/themes/tokyo-night/tokyo-night.yml
+#  - ~/.config/alacritty/themes/tokyo-night/tokyo-night-storm.yml.yml
+  
+    # uncomment the flavour you want below:
+  - ~/.config/alacritty/themes/catppuccin/catppuccin-mocha.yml
+#  - ~/.config/alacritty/themes/catppuccin/catppuccin-macchiato.yml
+#  - ~/.config/alacritty/themes/catppuccin/catppuccin-frappe.yml
+#  - ~/.config/alacritty/themes/catppuccin/catppuccin-latte.yml
   # Any items in the `env` entry below will be added as
   # environment variables. Some entries may override variables
   # set by alacritty itself.
-  #env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  TERM: xterm-256color
 
 window:
   #dimensions:
@@ -195,41 +202,7 @@ font:
   #thickness: 0.15
 
 # Live config reload (changes require restart)
-live_config_reload: true
-colors:
-  name: TokyoNight Night
-  author: Folke
-  # Default colors
-  primary:
-    background: '0x1a1b26'
-    foreground: '0xc0caf5'
 
-  # Normal colors
-  normal:
-    black: '0x15161E'
-    red: '0xf7768e'
-    green: '0x9ece6a'
-    yellow: '0xe0af68'
-    blue: '0x7aa2f7'
-    magenta: '0xbb9af7'
-    cyan: '0x7dcfff'
-    white: '0xa9b1d6'
-
-  # Bright colors
-  bright:
-    black: '0x414868'
-    red: '0xf7768e'
-    green: '0x9ece6a'
-    yellow: '0xe0af68'
-    blue: '0x7aa2f7'
-    magenta: '0xbb9af7'
-    cyan: '0x7dcfff'
-    white: '0xc0caf5'
-
-  indexed_colors:
-    - { index: 16, color: '0xff9e64' }
-    - { index: 17, color: '0xdb4b4b' }
-theme: Tokyonight_Night
 
 # Shell
 #
