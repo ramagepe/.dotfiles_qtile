@@ -125,6 +125,9 @@ keys = [
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     Key([], "XF86AudioStop", lazy.spawn("playerctl stop")),
+    
+    # Hide bar
+    Key([MOD_KEY], "b", lazy.hide_show_bar("all")),
 ]
 
 groups = []

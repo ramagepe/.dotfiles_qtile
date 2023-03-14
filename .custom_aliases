@@ -23,6 +23,7 @@ alias config-starship="nvim ~/.config/starship.toml"
 alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
 alias config-autostart="nvim ~/.xprofile"
 alias config-picom="nvim ~/.config/picom/picom.conf"
+alias config-pacman="sudo nvim /etc/pacman.conf"
 
 # Debugging shorcuts
 alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
