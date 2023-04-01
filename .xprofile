@@ -45,3 +45,20 @@ xset s noblank
 
 # Speedy keys
 xset r rate 210 40
+
+#########################
+#	      Configs		      #
+#########################
+
+# XDG Paths
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+
+# Zsh config files
+# export ZDOTDIR=$HOME/.config/zsh
+
+# Environment variables set everywhere
+export EDITOR="nvim"
+export TERMINAL="alacritty"
+export BROWSER="brave"
