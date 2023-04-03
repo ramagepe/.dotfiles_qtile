@@ -55,3 +55,6 @@ alias backg="feh --bg-scale"
 
 # Radeon monitoring
 alias gpu="radeontop"
+
+# Hackernews script
+alias hackernews="cd /home/ramage/code/python/projects/hackernews_scrapper && poetry run python scrap_hackn.py"

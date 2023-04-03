@@ -9,7 +9,8 @@ bindkey -v
 # The following lines were added by compinstall
 zstyle ':completion:*' menu select
 
-autoload -Uz compinit 
+fpath+=~/.zfunc
+autoload -Uz compinit && compinit
 compinit
 # End of lines added by compinstall
 

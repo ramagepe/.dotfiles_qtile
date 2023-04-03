@@ -41,6 +41,8 @@ keys = [
         desc="Move window down"),
     Key([MOD_KEY, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
+    Key([MOD_KEY, "shift"], "e", lazy.spawn("pcmanfm -d"), desc="Open file explorer"),
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     # Key([mod, "control"], "h", lazy.layout.grow_left(),

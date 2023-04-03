@@ -23,6 +23,9 @@ flameshot &
 # Compositor
 picom -CGb &
 
+# Redshift
+redshift-gtk &
+
 # Apps
 alacritty &
 brave &
