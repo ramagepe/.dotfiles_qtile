@@ -17,14 +17,14 @@ xbanish &
 # Flameshot screenshots app
 flameshot &
 
-# Audio volume controller
-#volnoti &
-
 # Compositor
-picom -CGb &
+picom -b &
 
 # Redshift
 redshift-gtk &
+
+# File manager daemon
+pcmanfm -d &
 
 # Apps
 alacritty &

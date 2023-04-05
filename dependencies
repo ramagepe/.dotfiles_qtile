@@ -1,0 +1,45 @@
+git
+neovim
+exa
+reflector
+snapper
+ripgrep
+fd
+lazygit
+xsel
+rofi
+obsidian
+thunderbird
+discord
+pcmanfm
+carla
+calf
+pasystray
+xbanish
+flameshot
+picom
+redshift
+bluez 
+bluez-utils (start/enable bluetooth.service)
+blueman
+networkmanager (start/enable NetworkManager.service)
+networkmanager-applet
+unzip
+zip
+pamixer
+playerctl
+lxappearance
+udisks2
+osprober --os detection
+man
+lightdm-gtk-greeter-settings
+grub-btrfs
+
+nvm
+starship
+
+paru
+brave
+1password
+spotify
+xbanish

@@ -5,7 +5,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoration
-
+import os, subprocess
 from scripts import storage
 
 MOD_KEY = "mod4"
@@ -424,7 +424,6 @@ def assign_app_group(client):
 #########################################################
 ###############         end             #################
 #########################################################
-
 
 # Drag floating layouts.
 mouse = [
