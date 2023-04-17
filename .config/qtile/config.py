@@ -101,13 +101,14 @@ keys = [
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    Key(
-        [MOD_KEY, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
+    # Key(
+    #     [MOD_KEY, "shift"],
+    #     "Return",
+    #     lazy.layout.toggle_split(),
+    #     desc="Toggle between split and unsplit sides of stack",
+    # ),
     Key([MOD_KEY], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    # Key([MOD_KEY, "shift"], "Return", lazy.spawn('tdrop -ma -w -4 -y "$PANEL_HEIGHT" -s dropdown kitty'), desc="Launch dropdown terminal"),
 
     # Toggle between different layouts as defined below
     Key([MOD_KEY], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -131,6 +132,7 @@ keys = [
     # Hide bar
     Key([MOD_KEY], "b", lazy.hide_show_bar("all")),
 ]
+
 
 groups = []
 
@@ -278,19 +280,27 @@ screens = [
                 ),
                 widget.Spacer(
                     background=colors[0],
-                    length=bar.STRETCH,
+                    length=90,
                 ),
                 widget.Memory(
-                    padding=15,
+                    padding=10,
                     format="  {MemUsed:.2f}{mm}",
                     measure_mem='G',
                     background=colors[0],
                     foreground=colors[5],
                     update_interval=2,
                     mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e btm")
                     },
                     **border_decoration(colors[3])
+                ),
+                widget.MemoryGraph(
+                    background=colors[0],
+                    fill_color=colors[6],
+                    frequency=0.1,
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e btm")
+                    },
                 ),
                 widget.GenPollText(
                     fmt='  {}',
@@ -300,18 +310,26 @@ screens = [
                     update_interval=5,
                     func=lambda: storage.diskspace('FreeSpace'),
                     mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e btm")
                     },
                     **border_decoration(colors[4])
                 ),
+                widget.CPUGraph(
+                    background=colors[0],
+                    fill_color=colors[6],
+                    frequency=0.1,
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e btm")
+                    },
+                ),
                 widget.CPU(
-                    padding=15,
+                    padding=10,
                     format="﬙  {load_percent}%",
                     background=colors[0],
                     foreground=colors[5],
                     update_interval=2,
                     mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e gtop")
+                        'Button1': lambda: qtile.cmd_spawn(f"{terminal} -e btm")
                     },
                     **border_decoration(colors[3])
                 ),
@@ -395,8 +413,8 @@ def assign_app_group(client):
     d["4"] = ["Thunderbird",
               "thunderbird",
               "Mail"]
-    # d["5"] = ["Meld", "meld", "org.gnome.meld" "org.gnome.Meld" ]
-    # d["6"] = ["Vlc","vlc", "Mpv", "mpv" ]
+    d["5"] = ["Discord", "discord" ]
+    d["6"] = ["Steam", "steam"]
     d["7"] = ["1Passsword",
               "1password"]
     d["8"] = ["Pcmanfm",
@@ -463,6 +481,7 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
         Match(title='Open File'),
         Match(title='galculator'),
+        Match(title='kitty'),
     ]
 )
 auto_fullscreen = True

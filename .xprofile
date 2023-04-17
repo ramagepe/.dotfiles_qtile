@@ -2,6 +2,14 @@
 #	      Autostart	      #
 #########################
 
+# Compositor
+picom -b &
+
+# Background
+~/.fehbg &
+
+# ==> APPLETS <==
+
 # Bluetooth applet
 blueman-applet &
 
@@ -17,25 +25,25 @@ xbanish &
 # Flameshot screenshots app
 flameshot &
 
-# Compositor
-picom -b &
-
 # Redshift
 redshift-gtk &
 
-# File manager daemon
-pcmanfm -d &
 
-# Apps
+# ==> APPS <==
+
 alacritty &
-brave &
+# brave &
 obsidian &
-thunderbird &
+# thunderbird &
+# discord &
+# steam &
 1password &
-pcmanfm &
+pcmanfm -d &
 carla &
+spotify &
 
-~/.fehbg &
+# Start apps which requires internet connection
+sh ~/.config/qtile/scripts/autostart.sh &
 
 #########################
 #	      Tweaks		      #

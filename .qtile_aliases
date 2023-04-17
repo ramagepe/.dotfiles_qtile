@@ -14,6 +14,7 @@ alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pac
 
 # Neovim patch
 #alias nvim="lvim"
+alias gvim="nvim"
 
 # Config shortcuts
 alias config-snapper="sudo nvim /etc/snapper/configs"
@@ -24,6 +25,10 @@ alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
 alias config-autostart="nvim ~/.xprofile"
 alias config-picom="nvim ~/.config/picom/picom.conf"
 alias config-pacman="sudo nvim /etc/pacman.conf"
+alias config-bash="nvim ~/.bashrc"
+alias config-hypr="nvim ~/.config/hypr/hyprland.conf"
+alias config-kitty="nvim ~/.config/kitty/kitty.conf"
+alias config-waybar="nvim ~/.config/waybar/"
 
 # Debugging shorcuts
 alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
@@ -53,8 +58,11 @@ alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
 # Feh background
 alias backg="feh --bg-scale"
 
-# Radeon monitoring
-alias gpu="radeontop"
+# Get hardware ingormation
+alias info-gpu="radeontop"
+alias info-mother="sudo dmidecode -t baseboard"
+alias info-cpu="lscpu"
 
 # Hackernews script
 alias hackernews="cd /home/ramage/code/python/projects/hackernews_scrapper && poetry run python scrap_hackn.py"
+

@@ -1,0 +1,59 @@
+programs:
+
+# System utilities
+  - git
+  - neovim
+  - tree
+  - exa
+  - reflector
+  - snapper
+  - ripgrep
+  - fd
+  - lazygit
+  - xsel
+  - unzip
+  - zip
+  - man
+  - grub-btrfs
+  - calibre
+
+# Desktop environment utilities
+  - rofi
+  - pcmanfm
+  - pamixer
+  - playerctl
+  - lxappearance
+  - udisks2
+  - sddm
+
+# Audio utilities
+  - carla
+  - calf
+  - pasystray
+
+# Screenshot utility
+  - flameshot
+
+# Compositor and screen color adjustment
+  - picom
+  - redshift
+
+# Bluetooth utilities
+  - bluez
+  - blueman
+
+# Network manager
+  - networkmanager
+
+# Applications
+  - obsidian
+  - thunderbird
+  - discord
+
+# Brave browser, 1Password, and Spotify
+  - brave-bin
+  - 1password
+  - spotify
+
+# Xbanish for hiding the mouse cursor when typing
+  - xbanish
