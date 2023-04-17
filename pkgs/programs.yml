@@ -49,11 +49,10 @@ programs:
   - obsidian
   - thunderbird
   - discord
-
-# Brave browser, 1Password, and Spotify
   - brave-bin
   - 1password
   - spotify
+  - qbittorrent
 
 # Xbanish for hiding the mouse cursor when typing
   - xbanish
