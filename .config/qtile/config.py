@@ -26,9 +26,11 @@ keys = [
     Key([MOD_KEY], "space", lazy.layout.next(),
         desc="Move window focus to other window"),
     Key([MOD_KEY], "d", lazy.spawn("rofi -show drun")),
-    Key([MOD_KEY, "shift"], "d", lazy.spawn(
-        "sudo dmenu_run -fn 'JetBrainsMono Nerd Font-16'")),
+    Key([MOD_KEY, "shift"], "d", lazy.spawn("sudo rofi -show drun")),
     Key([MOD_KEY], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
+    Key([MOD_KEY], "f", lazy.window.toggle_fullscreen()),
+
+
     Key([], "Print", lazy.spawn('flameshot gui')),
 
     # Move windows between left/right columns or move up/down in current stack.

@@ -14,21 +14,18 @@ alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pac
 
 # Neovim patch
 #alias nvim="lvim"
-alias gvim="nvim"
 
 # Config shortcuts
-alias config-snapper="sudo nvim /etc/snapper/configs"
-alias config-aliases="nvim ~/.custom_aliases"
-alias config-qtile="nvim ~/.config/qtile/config.py"
-alias config-starship="nvim ~/.config/starship.toml"
-alias config-alacritty="nvim ~/.config/alacritty/alacritty.yml"
-alias config-autostart="nvim ~/.xprofile"
-alias config-picom="nvim ~/.config/picom/picom.conf"
-alias config-pacman="sudo nvim /etc/pacman.conf"
-alias config-bash="nvim ~/.bashrc"
-alias config-hypr="nvim ~/.config/hypr/hyprland.conf"
-alias config-kitty="nvim ~/.config/kitty/kitty.conf"
-alias config-waybar="nvim ~/.config/waybar/"
+alias config-snapper="sudo code /etc/snapper/configs"
+alias config-aliases="code ~/.custom_aliases"
+alias config-qtile="code ~/.config/qtile/config.py"
+alias config-starship="code ~/.config/starship.toml"
+alias config-alacritty="code ~/.config/alacritty/alacritty.yml"
+alias config-autostart="code ~/.xprofile"
+alias config-picom="code ~/.config/picom/picom.conf"
+alias config-pacman="sudo code /etc/pacman.conf"
+alias config-bash="code ~/.bashrc"
+alias config-starship="code ~/.config/starship.toml"
 
 # Debugging shorcuts
 alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"

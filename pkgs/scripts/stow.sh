@@ -2,9 +2,11 @@
 
 set -e
 
-echo "========================"
-echo "=    Stow migration    ="
-echo "========================"
+echo -e ""
+echo -e "========================"
+echo -e "=    Stow migration    ="
+echo -e "========================"
+echo -e ""
 
 #! ---- Remove stow conflicts -----------
 # Remove $HOME/.bashrc if it exists
@@ -27,5 +29,5 @@ fi
 #! ---- Run stow ------------------------
 # Run stow on the .dotfiles directory, ignoring pkgs and extras
 cd $HOME/.dotfiles
-stow --ignore='pkgs' .
+stow --ignore='pkgs|hypr' .
 cd $HOME

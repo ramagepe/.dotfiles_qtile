@@ -23,8 +23,7 @@ programs:
   - pamixer
   - playerctl
   - lxappearance
-  - udisks2
-  - sddm
+  - udisks2 # (systemctl)
 
 # Audio utilities
   - carla
@@ -38,11 +37,11 @@ programs:
   - picom
   - redshift
 
-# Bluetooth utilities
+# Bluetooth utilities (systemctl)
   - bluez
   - blueman
 
-# Network manager
+# Network manager (systemctl)
   - networkmanager
 
 # Applications

@@ -2,22 +2,32 @@
 
 set -e
 
-echo "========================"
-echo "=   Install Programs   ="
-echo "========================"
+# Define colors for printing messages
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+echo -e "========================"
+echo -e "=   Install  Programs  ="
+echo -e "========================"
 # Install programs that are not already installed
 
 #! ---- Install programs from list ------
 # Check if programs.yml file exists
 if [ ! -f "$HOME/.dotfiles/pkgs/programs.yml" ]; then
-    echo "programs.yml not found!"
+    echo "${RED}programs.yml not found!${NC}"
 else
     # Install programs that are not already installed
     while read program; do
         if ! pacman -Qi "$program" &>/dev/null; then
             paru -S --noconfirm "$program"
+            if [ $? -eq 0 ]; then
+                echo -e "${GREEN}$program installed successfully!${NC}"
+            else
+                echo -e "${RED}$program installation failed${NC}"
+            fi
         else
-            echo "$program is already installed"
+            echo -e "${GREEN}$program is already installed...${NC}"
         fi
     done < <(yq -r '.programs[]' $HOME/.dotfiles/pkgs/programs.yml)
 fi
@@ -41,24 +51,34 @@ if [ ! -f "$HOME/.config/nvim/init.lua" ]; then
     git clone https://github.com/LazyVim/starter $HOME/.config/nvim
     rm -rf $HOME/.config/nvim/.git
 else
-    echo "LazyVim is already installed"
+    echo -e "${GREEN}LazyVim is already installed...${NC}"
 fi
 
 # Install Python extension
 if ! pip show pynvim &>/dev/null; then
     pip install pynvim
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}pynvim installed successfully!${NC}"
+    else
+        echo -e "${RED}pynvim installation failed${NC}"
+    fi
 else
-    echo "pynvim is already installed"
+    echo -e "${GREEN}pynvim is already installed...${NC}"
 fi
 
 # Check if node package neovim is installed
 if ! command -v npm &>/dev/null; then
-    echo "node not installed"
+    echo "${RED}node is not installed${NC}"
 else
     if ! npm list -g neovim &>/dev/null; then
         # Install neovim extension
         npm install -g neovim
+        if [ $? -eq 0 ]; then
+            echo -e "${GREEN}neovim-node installed successfully!${NC}"
+        else
+            echo -e "${RED}neovim-node installation failed${NC}"
+        fi
     else
-        echo "neovim package is already installed"
+        echo -e "${GREEN}neovim-node is already installed...${NC}"
     fi
 fi
