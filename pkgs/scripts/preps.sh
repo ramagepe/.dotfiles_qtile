@@ -33,11 +33,11 @@ echo -e ""
 
 #! ---- Update mirrors -------------------
 # Update mirrors
-if command -v reflector &>/dev/null; then
-    sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist
-else
-    echo "Updating mirrors failed! reflector not installed"
-fi
+#if command -v reflector &>/dev/null; then
+#    sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist
+#else
+#    echo "Updating mirrors failed! reflector not installed"
+#fi
 
 echo -e ""
 echo -e "   Updating System    "

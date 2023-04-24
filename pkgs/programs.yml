@@ -7,6 +7,7 @@ programs:
   - exa
   - reflector
   - snapper
+  - grub-btrfs
   - ripgrep
   - fd
   - lazygit
@@ -14,8 +15,9 @@ programs:
   - unzip
   - zip
   - man
-  - grub-btrfs
   - calibre
+  - python-pip
+  - ttf-jetbrains-mono-nerd
 
 # Desktop environment utilities
   - rofi
@@ -50,7 +52,7 @@ programs:
   - discord
   - brave-bin
   - 1password
-  - spotify
+  - spotify-dev
   - qbittorrent
 
 # Xbanish for hiding the mouse cursor when typing

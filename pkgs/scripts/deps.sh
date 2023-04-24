@@ -71,7 +71,6 @@ fi
 
 #! ---- Install node --------------
 if [ ! -d "$HOME/.npm" ]; then
-    nvm install --lts
     nvm install node
 else
     echo -e "node is already installed"

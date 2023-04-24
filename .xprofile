@@ -28,6 +28,8 @@ flameshot &
 # Redshift
 redshift-gtk &
 
+# Auto-mount tool
+udiskie &
 
 # ==> APPS <==
 
@@ -36,11 +38,11 @@ alacritty &
 obsidian &
 # thunderbird &
 # discord &
-# steam &
+# telegram &
 1password &
 pcmanfm -d &
 carla &
-spotify &
+spotify-launcher &
 
 # Start apps which requires internet connection
 sh ~/.config/qtile/scripts/autostart.sh &

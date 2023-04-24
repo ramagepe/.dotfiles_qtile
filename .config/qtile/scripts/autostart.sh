@@ -5,7 +5,6 @@ applications=(
 	"brave"
 	"thunderbird"
 	"discord"
-	"steam"
 )
 
 # Check for internet connection by pinging Google DNS server
