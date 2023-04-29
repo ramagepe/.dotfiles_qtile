@@ -40,14 +40,14 @@ else
     echo -e "${GREEN}base-devel is already installed${NC}"
 fi
 
-#! ---- Install rustup --------------------
-# Install Rust using rustup if not already installed
-if ! command -v rustup &>/dev/null; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    source $HOME/.cargo/env
-else
-    echo -e "${GREEN}rustup is already installed${NC}"
-fi
+# #! ---- Install rustup --------------------
+# # Install Rust using rustup if not already installed
+# if ! command -v rustup &>/dev/null; then
+#     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#     source $HOME/.cargo/env
+# else
+#     echo -e "${GREEN}rustup is already installed${NC}"
+# fi
 
 #! ---- Install paru --------------------
 # Clone and install paru if not already installed
