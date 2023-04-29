@@ -18,6 +18,10 @@ programs:
   - calibre
   - python-pip
   - ttf-jetbrains-mono-nerd
+  - visual-studio-code-bin
+  - bottom
+  - radeontop
+  - udiskie
 
 # Desktop environment utilities
   - rofi
@@ -26,6 +30,8 @@ programs:
   - playerctl
   - lxappearance
   - udisks2 # (systemctl)
+  - lightdm-gtk-greeter-settings
+  - xdg-user-dirs
 
 # Audio utilities
   - carla
@@ -41,6 +47,7 @@ programs:
 
 # Bluetooth utilities (systemctl)
   - bluez
+  - bluez-utils
   - blueman
 
 # Network manager (systemctl)
@@ -52,8 +59,10 @@ programs:
   - discord
   - brave-bin
   - 1password
-  - spotify-dev
+  # - spotify-dev
   - qbittorrent
+  - galculator
 
 # Xbanish for hiding the mouse cursor when typing
   - xbanish
+  - i3lock-fancy-rapid-git
