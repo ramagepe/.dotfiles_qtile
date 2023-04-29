@@ -21,7 +21,6 @@ programs:
   - visual-studio-code-bin
   - bottom
   - radeontop
-  - udiskie
 
 # Desktop environment utilities
   - rofi
@@ -29,7 +28,8 @@ programs:
   - pamixer
   - playerctl
   - lxappearance
-  - udisks2 # (systemctl)
+  - udisks2
+  - udiskie
   - lightdm-gtk-greeter-settings
   - xdg-user-dirs
 

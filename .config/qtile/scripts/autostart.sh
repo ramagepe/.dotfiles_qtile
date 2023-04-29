@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Add your application commands in the "applications" array
 applications=(
 	"brave"
 	"thunderbird"
 	"discord"
+	"steam-native"
+	"spotify-launcher"
 )
 
 # Check for internet connection by pinging Google DNS server
