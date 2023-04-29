@@ -59,7 +59,7 @@ programs:
   - discord
   - brave-bin
   - 1password
-  # - spotify-dev
+  -	spotify-launcher
   - qbittorrent
   - galculator
 
