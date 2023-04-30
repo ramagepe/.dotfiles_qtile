@@ -31,9 +31,6 @@ programs:
   - bottom
   - radeontop
 
-  # Gaming
-  - steam-native-runtime
-
   # Desktop environment
   - rofi
   - pcmanfm
