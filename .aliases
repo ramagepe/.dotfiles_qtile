@@ -33,6 +33,8 @@ alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
 # Logs shortcuts
 alias log-qtile="sudo nvim ~/.local/share/qtile/qtile.log"
 
+# Unpack
+alias unpack="aunpack"
 
 # Cleanup orphaned packages
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
