@@ -18,14 +18,14 @@ case "$choice" in
     y|Y )
         echo "Installing programs..."
         # Check if programs.yml file exists
-        if [ ! -f "$HOME/.dotfiles/pkgs/programs.yml" ]; then
+        if [ ! -f "$HOME/.dotfiles/install-script/programs.yml" ]; then
             echo "${RED}programs.yml not found!${NC}"
         else
             # Install programs that are not already installed
             while read program; do
                 if ! pacman -Qi "$program" &>/dev/null; then
                     if pacman -Sp "$program" &>/dev/null; then
-                        pacman -S --noconfirm "$program"
+                        sudo pacman -S --noconfirm "$program"
                         if [ $? -eq 0 ]; then
                             echo -e "${GREEN}$program installed successfully!${NC}"
                         else
@@ -42,7 +42,7 @@ case "$choice" in
                 else
                     echo -e "${GREEN}$program is already installed...${NC}"
                 fi
-            done < <(yq -r '.programs[]' $HOME/.dotfiles/pkgs/programs.yml)
+            done < <(yq -r '.programs[]' $HOME/.dotfiles/install-script/programs.yml)
             
         fi
     ;;

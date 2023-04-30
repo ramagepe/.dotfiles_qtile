@@ -14,7 +14,7 @@ case "$choice" in
         echo "Installing icons..."
         
         # navigate to the extras folder
-        cd extras/
+        cd $HOME/.dotfiles/install-script/extras/
         
         # iterate through each .zip file in the folder
         for file in *.zip

@@ -2,7 +2,7 @@
 
 set -e
 
-SCRIPTS_DIR="/home/ramage/.dotfiles/pkgs/scripts"
+SCRIPTS_DIR="/home/ramage/.dotfiles/install-script/scripts"
 
 source "${SCRIPTS_DIR}/preps.sh"
 source "${SCRIPTS_DIR}/deps.sh"

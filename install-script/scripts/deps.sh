@@ -7,9 +7,11 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo "========================"
-echo "= Install dependencies ="
-echo "========================"
+echo -e ""
+echo -e "========================"
+echo -e "= Install dependencies ="
+echo -e "========================"
+echo -e ""
 
 #! ---- Install core dependencies --------
 
