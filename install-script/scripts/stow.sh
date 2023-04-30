@@ -32,7 +32,7 @@ case "$choice" in
         
         # Run stow on the .dotfiles directory, ignoring pkgs and extras
         cd $HOME/.dotfiles
-        stow --ignore='pkgs|hypr' .
+        stow --ignore='install-script' .
         cd $HOME
     ;;
     * )
