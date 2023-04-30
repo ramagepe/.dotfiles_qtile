@@ -1,10 +1,15 @@
 programs:
-
-# System utilities
+  # Version control
   - git
+
+  # Text editors
   - neovim
+
+  # File management
   - tree
   - exa
+
+  # System utilities
   - reflector
   - snapper
   - grub-btrfs
@@ -15,14 +20,21 @@ programs:
   - unzip
   - zip
   - man
+
+  # Document management
   - calibre
+
+  # Programming languages and tools
   - python-pip
   - ttf-jetbrains-mono-nerd
   - visual-studio-code-bin
   - bottom
   - radeontop
 
-# Desktop environment utilities
+  # Gaming
+  - steam-native-runtime
+
+  # Desktop environment
   - rofi
   - pcmanfm
   - pamixer
@@ -33,36 +45,36 @@ programs:
   - lightdm-gtk-greeter-settings
   - xdg-user-dirs
 
-# Audio utilities
+  # Audio production
   - carla
   - calf
   - pasystray
 
-# Screenshot utility
+  # Screenshot
   - flameshot
 
-# Compositor and screen color adjustment
+  # Display and color
   - picom
   - redshift
 
-# Bluetooth utilities (systemctl)
+  # Bluetooth
   - bluez
   - bluez-utils
   - blueman
 
-# Network manager (systemctl)
+  # Network management
   - networkmanager
 
-# Applications
+  # Productivity and communication
   - obsidian
   - thunderbird
   - discord
   - brave-bin
   - 1password
-  -	spotify-launcher
+  - spotify-launcher
   - qbittorrent
   - galculator
 
-# Xbanish for hiding the mouse cursor when typing
+  # Miscellaneous
   - xbanish
   - i3lock-fancy-rapid-git
