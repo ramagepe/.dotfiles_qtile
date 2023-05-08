@@ -139,7 +139,7 @@ keys = [
 groups = []
 
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-group_labels = ["", "", "", "", "", "", "", "漣", "", ""]
+group_labels = ["", "", "", "", "", "", "", "", "", ""]
 group_layouts = ["monadtall" for _ in range(len(group_names))]
 
 for i, _ in enumerate(group_names):
@@ -286,7 +286,7 @@ screens = [
                 ),
                 widget.Memory(
                     padding=10,
-                    format="  {MemUsed:.2f}{mm}",
+                    format="  {MemUsed:.2f}{mm}",
                     measure_mem='G',
                     background=colors[0],
                     foreground=colors[5],
@@ -326,7 +326,7 @@ screens = [
                 ),
                 widget.CPU(
                     padding=10,
-                    format="﬙  {load_percent}%",
+                    format="  {load_percent}%",
                     background=colors[0],
                     foreground=colors[5],
                     update_interval=2,
@@ -341,7 +341,7 @@ screens = [
                     **right_powerline
                 ),
                 widget.PulseVolume(
-                    fmt='墳  {}',
+                    fmt='  {}',
                     background=colors[4],
                     foreground=colors[5],
                     padding=20,
