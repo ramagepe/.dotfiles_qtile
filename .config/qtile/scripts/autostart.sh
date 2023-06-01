@@ -5,7 +5,6 @@ applications=(
 	"thunderbird"
 	"discord"
 	"steam-native"
-	"spotify-launcher"
 )
 
 # Check for internet connection by pinging Google DNS server
