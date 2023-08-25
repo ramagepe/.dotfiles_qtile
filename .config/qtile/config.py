@@ -23,7 +23,7 @@ keys = [
     Key([MOD_KEY], "Right", lazy.layout.right(), desc="Move focus to right"),
     Key([MOD_KEY], "Down", lazy.layout.down(), desc="Move focus down"),
     Key([MOD_KEY], "Up", lazy.layout.up(), desc="Move focus up"),
-    Key([MOD_KEY], "space", lazy.layout.next(),
+    Key([MOD_KEY], "space", lazy.window.toggle_floating(),
         desc="Move window focus to other window"),
     Key([MOD_KEY], "d", lazy.spawn("rofi -show drun")),
     Key([MOD_KEY, "shift"], "d", lazy.spawn("sudo rofi -show drun")),
@@ -379,6 +379,7 @@ screens = [
             BAR_SIZE,
         ),
     ),
+    
 ]
 
 
@@ -487,12 +488,12 @@ floating_layout = layout.Floating(
     ]
 )
 auto_fullscreen = True
-focus_on_window_activation = "smart"
+focus_on_window_activation = "focus"
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
-auto_minimize = True
+auto_minimize = False
 
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None

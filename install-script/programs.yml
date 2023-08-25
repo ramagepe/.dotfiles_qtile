@@ -20,6 +20,10 @@ programs:
   - unzip
   - zip
   - man
+  - os-prober
+  - arandr
+  - ranger
+  - feh
 
   # Document management
   - calibre
@@ -27,6 +31,7 @@ programs:
   # Programming languages and tools
   - python-pip
   - ttf-jetbrains-mono-nerd
+  - ttf-iosevka-nerd
   - visual-studio-code-bin
   - bottom
   - radeontop
@@ -39,8 +44,10 @@ programs:
   - lxappearance
   - udisks2
   - udiskie
-  - lightdm-gtk-greeter-settings
   - xdg-user-dirs
+  - qogir-icon-theme
+  - sddm-theme-tokyo-night
+  - sddm-conf-git
 
   # Audio production
   - carla
@@ -71,6 +78,8 @@ programs:
   - spotify-launcher
   - qbittorrent
   - galculator
+  - gimp
+  - vlc
 
   # Miscellaneous
   - xbanish

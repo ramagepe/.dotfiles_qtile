@@ -26,6 +26,7 @@ alias config-picom="code ~/.config/picom/picom.conf"
 alias config-pacman="sudo code /etc/pacman.conf"
 alias config-bash="code ~/.bashrc"
 alias config-starship="code ~/.config/starship.toml"
+alias config-dotfiles="code ~/.dotfiles/install-script"
 
 # Debugging shorcuts
 alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
