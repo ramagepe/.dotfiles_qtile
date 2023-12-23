@@ -1,4 +1,4 @@
-# Copyright (c) 2022, elParaguayo. All rights reserved.
+# Copyright (c) 2023 elParaguayo
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -17,31 +17,3 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-from libqtile import bar, widget
-
-
-class QTEMirror(widget.Mirror):
-    """
-    A modified version of Qtile's Mirror widget.
-
-    The only difference is to ensure mirrored widgets are sized correctly.
-
-    ..important::
-
-        The mirror will also reflect any decorations of the original widget. Therefore,
-        if you need different decoration behaviour, you must create a new instance of the
-        widget.
-
-    This widget should not be created directly by users.
-    """
-
-    _qte_compatibility = True
-
-    def __init__(self, reflection, **config):
-        widget.Mirror.__init__(self, reflection, **config)
-        self.decorations = getattr(reflection, "decorations", list())
-
-        if self.length_type in [bar.CALCULATED, bar.STRETCH]:
-            self.length = 0
-        else:
-            self.length = self.reflects._length

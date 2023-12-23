@@ -31,21 +31,24 @@ redshift-gtk &
 # Auto-mount tool
 udiskie &
 
+# Emacs server
+/usr/bin/emacs --daemon
+
 # ==> APPS <==
 
 alacritty &
-# brave &
+brave &
 obsidian &
-# thunderbird &
-# discord &
-# telegram &
-1password &
+thunderbird &
+discord &
+telegram &
+bitwarden-desktop &
 pcmanfm -d &
 carla &
 spotify-launcher &
 
 # Start apps which requires internet connection
-sh ~/.config/qtile/scripts/autostart.sh &
+# sh ~/.config/qtile/scripts/autostart.sh &
 
 #########################
 #	      Tweaks		      #
@@ -75,3 +78,4 @@ export XDG_DATA_HOME=$HOME/.local/share
 export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="brave"
+export SUDO_EDITOR="nvim"

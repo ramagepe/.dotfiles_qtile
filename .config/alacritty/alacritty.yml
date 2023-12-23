@@ -1,18 +1,17 @@
 import:
-
-# THEMES
+  # THEMES
   - ~/.config/alacritty/themes/tokyo-night/tokyo-night.yml
 #  - ~/.config/alacritty/themes/tokyo-night/tokyo-night-storm.yml
 
-#  - ~/.config/alacrittu/themes/one-dark/one-dark.yml  
+#  - ~/.config/alacrittu/themes/one-dark/one-dark.yml
 
 #  - ~/.config/alacritty/themes/catppuccin/catppuccin-mocha.yml
 #  - ~/.config/alacritty/themes/catppuccin/catppuccin-macchiato.yml
 #  - ~/.config/alacritty/themes/catppuccin/catppuccin-frappe.yml
 #  - ~/.config/alacritty/themes/catppuccin/catppuccin-latte.yml
-  # Any items in the `env` entry below will be added as
-  # environment variables. Some entries may override variables
-  # set by alacritty itself.
+# Any items in the `env` entry below will be added as
+# environment variables. Some entries may override variables
+# set by alacritty itself.
 env:
   TERM: xterm-256color
 
@@ -20,11 +19,11 @@ window:
   #dimensions:
   #  columns: 0
   #  lines: 0
-  
+
   #position:
   #  x: 0
   #  y: 0
-  
+
   padding:
     x: 10
     y: 3
@@ -98,7 +97,7 @@ font:
 
   # Point size
   size: 11.5
-  
+
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
@@ -199,9 +198,7 @@ font:
   # Thickness of the cursor relative to the cell width as floating point number
   # from `0.0` to `1.0`.
   #thickness: 0.15
-
 # Live config reload (changes require restart)
-
 
 # Shell
 #

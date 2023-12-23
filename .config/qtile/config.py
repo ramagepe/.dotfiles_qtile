@@ -5,7 +5,6 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoration
-import os, subprocess
 from scripts import storage
 
 MOD_KEY = "mod4"
@@ -43,7 +42,8 @@ keys = [
         desc="Move window down"),
     Key([MOD_KEY, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
-    Key([MOD_KEY, "shift"], "e", lazy.spawn("pcmanfm -d"), desc="Open file explorer"),
+    Key([MOD_KEY, "shift"], "e", lazy.spawn(
+        "pcmanfm -d"), desc="Open file explorer"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
@@ -51,9 +51,9 @@ keys = [
     #    desc="Grow window to the left"),
     # Key([mod, "control"], "l", lazy.layout.grow_right(),
     #    desc="Grow window to the right"),
-    #Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    #Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    #Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    # Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    # Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    # Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # RESIZE UP, DOWN, LEFT, RIGHT
     Key([MOD_KEY, "control"], "l",
         lazy.layout.grow_right(),
@@ -130,7 +130,7 @@ keys = [
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     Key([], "XF86AudioStop", lazy.spawn("playerctl stop")),
-    
+
     # Hide bar
     Key([MOD_KEY], "b", lazy.hide_show_bar("all")),
 ]
@@ -197,7 +197,7 @@ def init_layout_theme(border: int, margin: int):
     return {
         "border_width": border,
         "margin": margin,
-        "font": "JetBrainsMono Nerd Font 15",
+        "font": "JetBrainsMonoNerdFont 15",
                 "font_size": 15,
                 "border_focus": colors[4],
                 "border_normal": colors[2]
@@ -282,7 +282,7 @@ screens = [
                 ),
                 widget.Spacer(
                     background=colors[0],
-                    length=90,
+                    length=bar.STRETCH,
                 ),
                 widget.Memory(
                     padding=10,
@@ -340,23 +340,23 @@ screens = [
                     length=bar.STRETCH,
                     **right_powerline
                 ),
-                widget.PulseVolume(
-                    fmt='  {}',
-                    background=colors[4],
-                    foreground=colors[5],
-                    padding=20,
-                    update_interval=0.01,
-                    **right_powerline
-                ),
+                # widget.PulseVolume(
+                #     fmt='  {}',
+                #     background=colors[4],
+                #     foreground=colors[5],
+                #     padding=20,
+                #     update_interval=0.01,
+                #     **right_powerline
+                # ),
                 widget.Clock(
-                    format="%Y-%m-%d",
+                    format="%I:%M %p",
                     padding=20,
                     background=colors[3],
                     foreground=colors[5],
                     **right_powerline
                 ),
                 widget.Clock(
-                    format="%I:%M %p",
+                    format="%d-%m-%Y",
                     padding=20,
                     background=colors[2],
                     foreground=colors[5],
@@ -379,7 +379,7 @@ screens = [
             BAR_SIZE,
         ),
     ),
-    
+
 ]
 
 
@@ -416,10 +416,10 @@ def assign_app_group(client):
     d["4"] = ["Thunderbird",
               "thunderbird",
               "Mail"]
-    d["5"] = ["Discord", "discord" ]
+    d["5"] = ["Discord", "discord"]
     d["6"] = ["Steam", "steam"]
-    d["7"] = ["1Passsword",
-              "1password"]
+    d["7"] = ["Bitwarden",
+              "bitwarden"]
     d["8"] = ["Pcmanfm",
               "pcmanfm",
               "Pcmanfm-qt",
@@ -428,10 +428,6 @@ def assign_app_group(client):
               "carla"]
     d["0"] = ["Spotify",
               "spotify",
-              "Clementine",
-              "clementine",
-              "Audacious",
-              "audacious",
               "Music",
               "music"]
     wm_class = client.window.get_wm_class()[0]
@@ -445,6 +441,7 @@ def assign_app_group(client):
 #########################################################
 ###############         end             #################
 #########################################################
+
 
 # Drag floating layouts.
 mouse = [

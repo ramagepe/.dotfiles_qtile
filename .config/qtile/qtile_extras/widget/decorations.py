@@ -51,19 +51,17 @@ class _Decoration(base.PaddingMixin):
         base.PaddingMixin.__init__(self, **config)
         self.add_defaults(_Decoration.defaults)
         self._extrawidth = self.extrawidth
-        self._ctx: Context | None = None
 
     def __eq__(self, other):
-        return type(self) == type(other) and self._user_config == other._user_config
+        return type(self) is type(other) and self._user_config == other._user_config
 
     def _configure(self, parent: base._Widget) -> None:
-        self._ctx = None
         self.parent = parent
 
     def single_or_four(self, value, name: str):
-        if type(value) in [float, int]:
+        if isinstance(value, (float, int)):
             n = e = s = w = value
-        elif type(value) in [tuple, list]:
+        elif isinstance(value, (tuple, list)):
             if len(value) == 1:
                 n = e = s = w = value[0]
             elif len(value) == 4:
@@ -98,20 +96,7 @@ class _Decoration(base.PaddingMixin):
 
     @property
     def ctx(self) -> Context:
-        if self._ctx:
-            return self._ctx
-
-        if self.parent.qtile.core.name == "x11":
-            # We need to erase some of the background but the x11 drawer
-            # painted the background directly to the XCB surface so we've got
-            # to erase content from that surface
-            ctx = Context(self.drawer._xcb_surface)  # type: ignore
-        else:
-            ctx = Context(self.drawer._source)  # type: ignore
-
-        self._ctx = ctx
-
-        return self._ctx
+        return self.drawer.ctx
 
     def set_source_rgb(self, colour) -> None:
         self.drawer.set_source_rgb(colour, ctx=self.ctx)
@@ -308,7 +293,7 @@ class RectDecoration(_Decoration, GroupMixin):
         self.corners = self.single_or_four(self.radius, "Corner radius")
 
     def _draw_path(self, clip=False):
-        ctx = self.ctx if not clip else self.drawer.ctx
+        ctx = self.ctx
         ctx.new_path()
 
         # If we're clipping then we want the path to be inside
@@ -435,7 +420,12 @@ class RectDecoration(_Decoration, GroupMixin):
         # area defined by the decoration
         if self.clip:
             self._draw_path(clip=True)
-            self.drawer.ctx.clip()
+            self.ctx.clip()
+        # If we're not clipping then we need to clear any existing paths
+        # (fill_preserve, above, retains the path) to ensure no undesired effects
+        # for contents being rendered by widgets, e.g. using masks.
+        else:
+            self.ctx.new_path()
 
 
 class BorderDecoration(_Decoration, GroupMixin):
@@ -540,8 +530,8 @@ class PowerLineDecoration(_Decoration):
     `override_next_colour` parameters.
 
     The default behavious is to draw an arrow pointing right. To change the shape you can
-    use pre-defined paths: "arrow_left", "arrow_right", "forward_slash", "back_slash" and
-    "zig_zag". Alternatively, you can create a custom shape by defining a path. The format
+    use pre-defined paths: "arrow_left", "arrow_right", "forward_slash", "back_slash", "rounded_left",
+    "rounded_right" and "zig_zag". Alternatively, you can create a custom shape by defining a path. The format
     is a list of (x, y) tuples. x and y values should be between 0 and 1 to represent the relative position
     in the additional space created by the decoration. (0, 0) is the top left corner (on a horizontal widget)
     and (1, 1) is the bottom right corner. The first point in the list is the starting point and then a line will
@@ -641,6 +631,10 @@ class PowerLineDecoration(_Decoration):
         self.shift = max(min(self.shift, self.size), 0)
         self._extrawidth += self.size - self.shift
 
+        # This decoration doesn't use the GroupMixin but we need to set the property
+        # as False as it's used in a couple of checks when other decorations are grouped
+        self.group = False
+
     @property
     def parent_length(self):
         if self.parent.length_type == bar.CALCULATED:
@@ -685,68 +679,69 @@ class PowerLineDecoration(_Decoration):
         except (ValueError, IndexError, StopIteration):
             return self.parent.bar.background
 
-    def paint_background(self, background):
-        # Clear the old content
+    def paint_background(self, background, foreground):
+        """
+        Bear with me, this one's a bit complicated...
+        """
         self.ctx.save()
-        self.ctx.set_operator(cairocffi.OPERATOR_CLEAR)
-        self.ctx.rectangle(
-            self.parent_length - self.shift + self.extrawidth,
-            0,
-            self.size,
-            self.parent.bar.height,
-        )
-        self.ctx.fill()
-        self.ctx.restore()
+        self.ctx.set_operator(cairocffi.OPERATOR_SOURCE)
 
-        # Paint the new background
-        self.ctx.save()
-
-        # If we have vertical padding then we paint the bar's bacground to the space
+        # If we have vertical padding then we need to paint the bar's background to the space
         if self.padding_y:
-            self.ctx.set_operator(cairocffi.OPERATOR_SOURCE)
-            self.set_source_rgb(self.parent.bar.background)
             self.ctx.rectangle(
-                self.parent_length - self.shift + self.extrawidth,
                 0,
-                self.size,
+                0,
+                self.parent.length,
                 self.parent.bar.height,
             )
+            self.set_source_rgb(self.parent.bar.background)
             self.ctx.fill()
 
-        # Create a rectangle for the space
+            # We then need to clear the part that will be covered by the decoration
+            self.drawer.clear_rect(
+                0, self.padding_y, self.parent.length, self.parent.bar.height - 2 * self.padding_y
+            )
+
+        # We fill the "normal" part of the widget with the background colour...
         self.ctx.rectangle(
-            self.parent_length - self.shift + self.extrawidth,
+            0,
+            self.padding_y,
+            self.parent_length - self.shift,
+            self.parent.bar.height - 2 * self.padding_y,
+        )
+        self.set_source_rgb(background)
+        self.ctx.fill()
+
+        # ...and fill the extra bit (i.e. between the widgets) with the foreground colour.
+        self.ctx.rectangle(
+            self.parent_length - self.shift,
             self.padding_y,
             self.size,
             self.parent.bar.height - 2 * self.padding_y,
         )
-
-        # If there's vertical padding then we've already painted the bar's background
-        # to this space so we need to clear the part that will have the new backgroun
-        if self.padding_y:
-            self.ctx.set_operator(cairocffi.OPERATOR_CLEAR)
-            self.ctx.fill
-
-        self.ctx.set_operator(cairocffi.OPERATOR_SOURCE)
-        self.set_source_rgb(background)
+        self.set_source_rgb(foreground)
         self.ctx.fill()
+
         self.ctx.restore()
 
     def draw_rounded(self, rotate=False):
+        # While not totally necessary to set these as instance variables,
+        # it's helpful for testing!
         self.fg = self.parent_background if not rotate else self.next_background
         self.bg = self.next_background if not rotate else self.parent_background
 
-        self.paint_background(self.bg)
+        self.paint_background(self.parent_background, self.bg)
 
         self.ctx.save()
         self.ctx.set_operator(cairocffi.OPERATOR_SOURCE)
 
-        # Translate the surface so that the origin is in the middle of the arc
         start = (
             self.parent_length - self.shift + self.extrawidth
             if not rotate
             else self.parent.length
         )
+
+        # Translate the surface so that the origin is in the middle of the arc
         self.ctx.translate(start, self.parent.bar.height // 2)
 
         # Rotate 180 degrees if drawing curve in the other direction
@@ -770,12 +765,16 @@ class PowerLineDecoration(_Decoration):
         if not path:
             return
 
+        # We're going to pop points from the list so we need to
+        # operate on a copy
         path = path.copy()
 
+        # While not totally necessary to set these as instance variables,
+        # it's helpful for testing!
         self.fg = self.parent_background
         self.bg = self.next_background
 
-        self.paint_background(self.bg)
+        self.paint_background(self.fg, self.bg)
 
         width = self.size
         height = self.parent.bar.height - 2 * (self.padding_y)
@@ -783,8 +782,10 @@ class PowerLineDecoration(_Decoration):
         self.ctx.save()
         self.ctx.set_operator(cairocffi.OPERATOR_SOURCE)
 
+        # Move to the start of the decoration (i.e. the addition area before the next widget)
         self.ctx.translate(self.parent_length - self.shift + self.extrawidth, self.padding_y)
 
+        # The points are defined between 0 and 1 so they get scaled by width and height.
         x, y = path.pop(0)
         self.ctx.move_to(x * width, y * height)
 
@@ -794,9 +795,10 @@ class PowerLineDecoration(_Decoration):
         self.ctx.close_path()
         self.set_source_rgb(self.fg)
         self.ctx.fill()
+
         self.ctx.restore()
 
-    def draw(self):
+    def draw(self) -> None:
         if self.width == 0:
             return
 
@@ -816,8 +818,11 @@ def inject_decorations(classdef):
         """Draw decorations after clearing background."""
         if self.use_bar_background:
             colour = self.bar.background
-        self.__clear(colour)
 
+        # Clear the widget background with the appropriate colour
+        self._pre_clear(colour)
+
+        # Draw the decorations
         for decoration in self.decorations:
             decoration.draw()
 
@@ -838,7 +843,7 @@ def inject_decorations(classdef):
             for dec in self.decorations:
                 dec._configure(self)
 
-            self.__clear = self.drawer.clear
+            self._pre_clear = self.drawer.clear
             self.drawer.clear = self.new_clear
 
     def new_configure(self, qtile, bar):

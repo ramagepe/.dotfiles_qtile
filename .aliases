@@ -53,7 +53,7 @@ alias snap-delete-home="sudo snapper -c home delete"
 alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
 
 # Emacs client
-#alias emacs="emacsclient -c -a emacs &"
+alias emacs="emacsclient -c -a emacs &"
 
 # Feh background
 alias backg="feh --bg-scale"
@@ -69,3 +69,6 @@ alias info-cpu="lscpu"
 # Hackernews script
 alias hackernews="cd /home/ramage/code/python/projects/hackernews_scrapper && poetry run python scrap_hackn.py"
 
+# Rust tools
+alias speedtest="speedtest-rs"
+alias wiki="wiki-tui"
