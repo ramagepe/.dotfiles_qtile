@@ -26,4 +26,4 @@ export PATH=$BUN_INSTALL/bin:$PATH
 export PATH=$HOME/.config/emacs/bin:$PATH
 . "$HOME/.cargo/env"
 
-export PATH="$PATH:/home/ramage/.foundry/bin"
+export PATH="$PATH:/home/ramage/.config/.foundry/bin"
