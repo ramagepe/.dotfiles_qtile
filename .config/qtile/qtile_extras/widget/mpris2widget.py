@@ -19,11 +19,10 @@
 # SOFTWARE.
 import asyncio
 
-from dbus_next.constants import MessageType
 from libqtile import widget
 from libqtile.command.base import expose_command
-from libqtile.utils import _send_dbus_message
 
+from qtile_extras import hook
 from qtile_extras.popup.templates.mpris2 import DEFAULT_IMAGE, DEFAULT_LAYOUT
 from qtile_extras.widget.mixins import ExtendedPopupMixin
 
@@ -118,12 +117,34 @@ class Mpris2(widget.Mpris2, ExtendedPopupMixin):
         ("popup_show_args", {"relative_to": 2, "relative_to_bar": True}, "Where to place popup"),
     ]
 
+    _hooks = [h.name for h in hook.mpris_hooks]
+
     def __init__(self, **config):
         widget.Mpris2.__init__(self, **config)
         ExtendedPopupMixin.__init__(self, **config)
         self.add_defaults(ExtendedPopupMixin.defaults)
         self.add_defaults(Mpris2.defaults)
         self._popup_values = {}
+        self._last_meta = {}
+        self._last_status = ""
+
+    def get_track_info(self, metadata):
+        result = widget.Mpris2.get_track_info(self, metadata)
+        if self.metadata != self._last_meta:
+            hook.fire("mpris_new_track", self.metadata)
+            self._last_meta = self.metadata.copy()
+        return result
+
+    def parse_message(self, _interface_name, changed_properties, _invalidated_properties):
+        update_status = "PlaybackStatus" in changed_properties
+        widget.Mpris2.parse_message(
+            self, _interface_name, changed_properties, _invalidated_properties
+        )
+        if update_status:
+            status = changed_properties["PlaybackStatus"].value
+            if status != self._last_status:
+                hook.fire("mpris_status_change", status)
+                self._last_status = status
 
     def bind_callbacks(self):
         self.extended_popup.bind_callbacks(
@@ -136,10 +157,7 @@ class Mpris2(widget.Mpris2, ExtendedPopupMixin):
     def _set_popup_text(self, task):
         if task.exception():
             return
-        bus, msg = task.result()
-
-        if bus:
-            bus.disconnect()
+        msg = task.result()
 
         result = msg.body[0]
 
@@ -197,9 +215,7 @@ class Mpris2(widget.Mpris2, ExtendedPopupMixin):
             self.extended_popup.bound_callbacks = True
 
         task = asyncio.create_task(
-            _send_dbus_message(
-                True,
-                MessageType.METHOD_CALL,
+            self._send_message(
                 self._current_player,
                 "org.freedesktop.DBus.Properties",
                 "/org/mpris/MediaPlayer2",

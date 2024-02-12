@@ -31,8 +31,14 @@ redshift-gtk &
 # Auto-mount tool
 udiskie &
 
+# Notifications manager
+dunst &
+
 # Emacs server
-/usr/bin/emacs --daemon
+#/usr/bin/emacs --daemon
+
+# Start polkit
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # ==> APPS <==
 
@@ -41,9 +47,9 @@ brave &
 obsidian &
 thunderbird &
 discord &
-telegram &
+# telegram &
 bitwarden-desktop &
-pcmanfm -d &
+# pcmanfm -d &
 carla &
 spotify-launcher &
 
@@ -79,3 +85,4 @@ export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="brave"
 export SUDO_EDITOR="nvim"
+export WINEPREFIX=$HOME/home/ramage/media/.wine

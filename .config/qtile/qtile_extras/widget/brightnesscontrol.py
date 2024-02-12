@@ -103,7 +103,6 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
         ("bar_colour", "008888", "Colour of bar displaying brightness level."),
         ("error_colour", "880000", "Colour of bar when displaying an error"),
         ("timeout_interval", 5, "Time before widet is hidden."),
-        ("widget_width", 75, "Width of bar when widget displayed"),
         (
             "enable_power_saving",
             False,
@@ -162,6 +161,13 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
             logger.warning(
                 "The use of `font_colour` is deprecated. "
                 "Please update your config to use `foreground` instead."
+            )
+
+        if "widget_width" in config:
+            self.bar_width = config["widget_width"]
+            logger.warning(
+                "The use of `widget_width` is deprecated. "
+                "Please update your config to use `bar_width` instead."
             )
 
         self.add_callbacks({"Button4": self.brightness_up, "Button5": self.brightness_down})
@@ -241,7 +247,7 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
     def message(self, message):
         self.update(*message.body)
 
-    def update(self, interface_name, changed_properties, invalidated_properties):
+    def update(self, _interface_name, changed_properties, _invalidated_properties):
         if "OnBattery" not in changed_properties:
             return
 
@@ -260,11 +266,9 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
                     percent = int(value[:-1])
                     self.set_brightness_percent(percent / 100)
                 except ValueError:
-                    err = "Incorrectly formatted brightness: {}".format(value)
-                    logger.error(err)
+                    logger.error("Incorrectly formatted brightness: %s", value)
             else:
-                err = "Unrecognised value for brightness: {}".format(value)
-                logger.warning(err)
+                logger.warning("Unrecognised value for brightness: %s", value)
 
             self.onbattery = onbattery
 
@@ -340,7 +344,7 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
         # Otherwise widget is the greater of the minimum size needed to
         # display 100% and the user defined max
         else:
-            return max(self.text_width, self.widget_width)
+            return max(self.text_width, self.bar_width)
 
     def change_brightness(self, step):
         # Get the current brightness level (we need to read this in case
@@ -388,13 +392,13 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
             with open(path, "r") as b:
                 value = int(b.read())
         except PermissionError:
-            logger.error("Unable to read {}.".format(path))
+            logger.error("Unable to read %s.", path)
             value = False
         except ValueError:
-            logger.error("Unexpected value when reading {}.".format(path))
+            logger.error("Unexpected value when reading %s.", path)
             value = False
         except Exception as e:
-            logger.error("Unexpected error when reading {}: {}.".format(path, e))
+            logger.error("Unexpected error when reading %s: %s.", path, e)  # noqa: G200
             value = False
 
         return value
@@ -422,10 +426,10 @@ class BrightnessControl(base._Widget, ExtendedPopupMixin, ProgressBarMixin):
                 b.write(str(newval))
                 success = True
         except PermissionError:
-            logger.error("No write access to {}.".format(self.bright_path))
+            logger.error("No write access to %s.", self.bright_path)
             success = False
         except Exception as e:
-            logger.error("Unexpected error when writing " "brightness value: {}.".format(e))
+            logger.error("Unexpected error when writing brightness value: %s.", e)  # noqa: G200
             success = False
 
         return success

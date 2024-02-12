@@ -17,35 +17,16 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-import math
-import socket
-from contextlib import contextmanager
-
 from libqtile import bar
 from libqtile.command.base import expose_command
 from libqtile.log_utils import logger
 from libqtile.widget import base
 from libqtile.widget.wlan import get_status
 
-PI = math.pi
-
-WIFI_ARC_DEGREES = 75
+from qtile_extras.widget.mixins import ConnectionCheckMixin, GraphicalWifiMixin
 
 
-def to_rads(degrees):
-    return degrees * PI / 180.0
-
-
-@contextmanager
-def socket_context(*args, **kwargs):
-    s = socket.socket(*args, **kwargs)
-    try:
-        yield s
-    finally:
-        s.close()
-
-
-class WiFiIcon(base._Widget, base.PaddingMixin):
+class WiFiIcon(base._Widget, base.PaddingMixin, GraphicalWifiMixin, ConnectionCheckMixin):
     """
     An simple graphical widget that shows WiFi status.
 
@@ -64,25 +45,11 @@ class WiFiIcon(base._Widget, base.PaddingMixin):
         ("active_colour", "ffffff", "Colour for wifi strength."),
         ("inactive_colour", "666666", "Colour for wifi background."),
         ("update_interval", 1, "Polling interval in secs."),
-        ("wifi_arc", 75, "Width of arc in degrees."),
         ("interface", "wlan0", "Name of wifi interface."),
         (
             "expanded_timeout",
             5,
             "Time in secs for expanded information to display when clicking on icon.",
-        ),
-        (
-            "check_connection_interval",
-            0,
-            "Interval to check if device connected to internet (0 to disable)",
-        ),
-        ("disconnected_colour", "aa0000", "Colour when device has no internet connection"),
-        ("internet_check_host", "8.8.8.8", "IP adddress to check for internet connection"),
-        ("internet_check_port", 53, "Port to check for internet connection"),
-        (
-            "internet_check_timeout",
-            5,
-            "Period before internet check times out and widget reports no internet connection.",
         ),
         ("show_ssid", False, "Show SSID and signal strength."),
     ]
@@ -98,6 +65,10 @@ class WiFiIcon(base._Widget, base.PaddingMixin):
         base._Widget.__init__(self, bar.CALCULATED, **config)
         self.add_defaults(WiFiIcon.defaults)
         self.add_defaults(base.PaddingMixin.defaults)
+        self.add_defaults(GraphicalWifiMixin.defaults)
+        self.add_defaults(ConnectionCheckMixin.defaults)
+        GraphicalWifiMixin.__init__(self)
+        ConnectionCheckMixin.__init__(self)
 
         self.add_callbacks({"Button1": self.show_text})
 
@@ -115,36 +86,15 @@ class WiFiIcon(base._Widget, base.PaddingMixin):
         self.essid = ""
         self.percent = 0
 
-        # If we're checking the internet connection then we assume we're disconnected
-        # until we've verified the connection
-        self.is_connected = not bool(self.check_connection_interval)
-
     def _configure(self, qtile, bar):
         base._Widget._configure(self, qtile, bar)
 
-        self.set_sizes()
+        self.set_wifi_sizes()
 
         if self.update_interval:
             self.timeout_add(self.update_interval, self.loop)
 
-        if self.check_connection_interval:
-            self.timeout_add(self.update_interval, self.check_connection)
-
-    def check_connection(self):
-        self.qtile.run_in_executor(self._check_internet).add_done_callback(self._check_connected)
-
-    def _check_internet(self):
-        with socket_context(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.settimeout(self.internet_check_timeout)
-            try:
-                s.connect((self.internet_check_host, self.internet_check_port))
-                return True
-            except (TimeoutError, OSError):
-                return False
-
-    def _check_connected(self, result):
-        self.is_connected = result.result()
-        self.timeout_add(self.check_connection_interval, self.check_connection)
+        ConnectionCheckMixin._configure(self)
 
     def loop(self):
         self.timeout_add(self.update_interval, self.loop)
@@ -163,63 +113,27 @@ class WiFiIcon(base._Widget, base.PaddingMixin):
             else:
                 self.draw()
 
-        except Exception as e:
-            logger.warning(f"Couldn't get wifi info. {e}")
+        except Exception:
+            logger.exception("Couldn't get wifi info.")
 
-    def draw_wifi(self, percentage):
-        offset = self.padding_x
-
-        half_arc = self.wifi_arc / 2
-        x_offset = int(self.wifi_height * math.sin(to_rads(half_arc)))
-
-        self.drawer.ctx.new_sub_path()
-
-        self.drawer.ctx.move_to(self.padding_x + x_offset, self.padding_y + self.wifi_height)
-        self.drawer.ctx.arc(
-            offset + x_offset,
-            self.padding_y + self.wifi_height,
-            self.wifi_height,
-            to_rads(270 - half_arc),
-            to_rads(270 + half_arc),
-        )
-        self.drawer.set_source_rgb(self.inactive_colour)
-        self.drawer.ctx.fill()
-
-        self.drawer.ctx.new_sub_path()
-        self.drawer.ctx.move_to(offset + x_offset, self.padding_y + self.wifi_height)
-        self.drawer.ctx.arc(
-            offset + x_offset,
-            self.padding_y + self.wifi_height,
-            self.wifi_height * percentage,
-            to_rads(270 - half_arc),
-            to_rads(270 + half_arc),
-        )
-        self.drawer.set_source_rgb(
-            self.active_colour if self.is_connected else self.disconnected_colour
-        )
-        self.drawer.ctx.fill()
-
-        offset += self.wifi_width + self.padding_x
-
-        if self._show_text:
-            layout = self.get_wifi_text()
-            layout.draw(offset, int((self.bar.height - layout.height) / 2))
+    def draw_wifi_text(self):
+        offset = self.wifi_width + 2 * self.wifi_padding_x
+        layout = self.get_wifi_text()
+        layout.draw(offset, int((self.bar.height - layout.height) / 2))
 
     def draw(self):
         if not self.configured:
             return
 
         self.drawer.clear(self.background or self.bar.background)
-        self.draw_wifi(self.percent)
+        self.draw_wifi(
+            self.percent,
+            foreground=self.active_colour if self.is_connected else self.disconnected_colour,
+            background=self.inactive_colour,
+        )
+        if self._show_text:
+            self.draw_wifi_text()
         self.drawer.draw(offsetx=self.offset, offsety=self.offsety, width=self.length)
-
-    def set_sizes(self):
-        self.wifi_height = self.bar.height - (self.padding_y * 2)
-        width_ratio = math.sin(to_rads(self.wifi_arc / 2))
-        self.wifi_width = (self.wifi_height * width_ratio) * 2
-        self.wifi_width = math.ceil(self.wifi_width)
-
-        self.icon_size = self.wifi_height
 
     def get_wifi_text(self, size_only=False):
         text = f"{self.essid} ({self.percent * 100:.0f}%)"

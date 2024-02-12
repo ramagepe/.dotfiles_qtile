@@ -29,15 +29,18 @@ from qtile_extras.widget.decorations import inject_decorations
 widgets = {
     "ALSAWidget": "alsavolumecontrol",
     "AnalogueClock": "analogueclock",
+    "Bluetooth": "bluetooth",
     "BrightnessControl": "brightnesscontrol",
     "ContinuousPoll": "continuous_poll",
     "CurrentLayoutIcon": "currentlayout",
     "CPUGraph": "graph",
     "GithubNotifications": "githubnotifications",
     "GlobalMenu": "globalmenu",
+    "GroupBox2": "groupbox2",
     "HDDGraph": "graph",
     "HDDBusyGraph": "graph",
     "Image": "image",
+    "IWD": "iwd",
     "LiveFootballScores": "livefootballscores",
     "MemoryGraph": "graph",
     "Mpris2": "mpris2widget",
@@ -101,9 +104,11 @@ def import_class(module_path, class_name, fallback=None):
         return classdef
 
     except ImportError as error:
-        logger.warning("Unmet dependencies for '%s.%s': %s", module_path, class_name, error)
+        logger.warning(  # noqa: G200
+            "Unmet dependencies for '%s.%s': %s", module_path, class_name, error
+        )
         if fallback:
-            logger.debug("%s", traceback.format_exc())
+            logger.debug("%s", traceback.format_exc())  # noqa: G200
             return fallback(module_path, class_name)
         raise
 

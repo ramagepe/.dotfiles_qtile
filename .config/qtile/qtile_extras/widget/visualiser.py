@@ -23,9 +23,10 @@ import shutil
 import signal
 import sys
 import tempfile
+import time
 from contextlib import contextmanager
-from multiprocessing import shared_memory
 from pathlib import Path
+from threading import Lock
 from time import sleep
 
 import cairocffi
@@ -51,6 +52,8 @@ raw_target = {pipe}
 bit_format = 8bit
 """
 
+fps_lock = Lock()
+
 
 class Visualiser(base._Widget):
     """
@@ -61,6 +64,15 @@ class Visualiser(base._Widget):
 
     cava is configured through the widget. Currently, you can set the number of bars and
     the framerate.
+
+    .. warning::
+
+        Rendering the visualiser directly in qtile's bar is almost certainly not an efficient way
+        to have a visualiser in your setup. You should therefore be aware that this widget uses
+        more processing power than other widgets so you may see CPU usage increase when using this.
+        However, if the CPU usage continues to increase the longer you use the widget then that is
+        likely to be a bug and should be reported!
+
     """
 
     _experimental = True
@@ -79,6 +91,7 @@ class Visualiser(base._Widget):
         ("autostart", True, "Start visualiser automatically"),
         ("hide", True, "Hide the visualiser when not active"),
         ("channels", "mono", "Visual channels. 'mono' or 'stereo'."),
+        ("invert", False, "When True, bars will draw from the top down"),
     ]
 
     _screenshots = [("visualiser.gif", "Default config.")]
@@ -88,11 +101,12 @@ class Visualiser(base._Widget):
         base._Widget.__init__(self, self._config_length, **config)
         self.add_defaults(Visualiser.defaults)
         self._procs_started = False
-        self._shm: shared_memory.SharedMemory
+        self._shm = None
         self._timer = None
         self._draw_count = 0
         self._toggling = False
         self._starting = False
+        self._last_time = time.time()
 
     def _configure(self, qtile, bar):
         if self.cava_path is None:
@@ -125,7 +139,7 @@ class Visualiser(base._Widget):
         else:
             new = 0
 
-        if old != new:
+        if old != new or not self.hide:
             self.bar.draw()
 
         self.length = new
@@ -133,24 +147,26 @@ class Visualiser(base._Widget):
     def _start(self):
         self._starting = True
         self.cava_proc = self.qtile.spawn([self.cava_path, "-p", self.config_file.name])
-        self.draw_proc = self.qtile.spawn(
-            [
-                PYTHON,
-                CAVA_DRAW.resolve().as_posix(),
-                "--width",
-                f"{self._config_length}",
-                "--height",
-                f"{self.bar_height}",
-                "--bars",
-                f"{self.bars}",
-                "--spacing",
-                f"{self.spacing}",
-                "--pipe",
-                f"{self.cava_pipe}",
-                "--background",
-                self.bar_colour,
-            ]
-        )
+        cmd = [
+            PYTHON,
+            CAVA_DRAW.resolve().as_posix(),
+            "--width",
+            f"{self._config_length}",
+            "--height",
+            f"{self.bar_height}",
+            "--bars",
+            f"{self.bars}",
+            "--spacing",
+            f"{self.spacing}",
+            "--pipe",
+            f"{self.cava_pipe}",
+            "--background",
+            self.bar_colour,
+        ]
+        if self.invert:
+            cmd.append("--invert")
+
+        self.draw_proc = self.qtile.spawn(cmd)
         self._timer = self.timeout_add(1, self._open_shm)
 
     def _stop(self):
@@ -174,6 +190,9 @@ class Visualiser(base._Widget):
         self._shmfile.close()
         self._lock.close()
         self._lockfile.close()
+
+        if fps_lock.locked():
+            fps_lock.release()
 
         self._set_length()
 
@@ -215,9 +234,15 @@ class Visualiser(base._Widget):
             self.drawer.draw(offsetx=self.offsetx, offsety=self.offsety, width=self.length)
             return
 
-        self._draw_count += 1
-        if self._draw_count == 1:
-            self._draw()
+        # We need to lock the redraw to our set framerate. We can't rely solely on timers
+        # as any call to bar.draw() by another widget will trigger a draw of the widget.
+        # We use a non-blocking lock and only allow the widget to draw if the lock was
+        # successfully acquired. The lock is only released after the required interval has
+        # elapsed.
+        if not fps_lock.acquire(blocking=False):
+            return
+
+        self._draw()
 
     def _draw(self):
         with self._take_lock():
@@ -233,8 +258,12 @@ class Visualiser(base._Widget):
         self.drawer.ctx.paint()
         self.drawer.draw(offsetx=self.offsetx, offsety=self.offsety, width=self.length)
 
-        self._draw_count = 0
-        self._timer = self.timeout_add(self._interval, self.draw)
+        self._timer = self.timeout_add(self._interval, self.loop)
+
+    def loop(self):
+        # Release the lock and redraw.
+        fps_lock.release()
+        self.draw()
 
     def finalize(self):
         self._stop()

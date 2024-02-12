@@ -25,6 +25,7 @@ from libqtile import bar
 from libqtile.log_utils import logger
 from libqtile.widget import base
 
+from qtile_extras import hook
 from qtile_extras.images import ImgMask
 from qtile_extras.widget.mixins import ProgressBarMixin
 
@@ -78,6 +79,8 @@ class Syncthing(base._Widget, ProgressBarMixin):
     ]
 
     _dependencies = ["requests"]
+
+    _hooks = [h.name for h in hook.syncthing_hooks]
 
     def __init__(self, length=bar.CALCULATED, **config):
         base._Widget.__init__(self, length, **config)
@@ -138,7 +141,7 @@ class Syncthing(base._Widget, ProgressBarMixin):
             if not self._error:
                 self._error = True
                 if not self._stop_log_spam:
-                    logger.warning(f"{r.status_code} error accessing Syncthing server.")
+                    logger.warning("%s error accessing Syncthing server.", r.status_code)
                     self._stop_log_spam = True
             return {}
 
@@ -156,6 +159,12 @@ class Syncthing(base._Widget, ProgressBarMixin):
         self.qtile.call_later(
             self.update_interval_syncing if self.is_syncing else self.update_interval, self.update
         )
+
+        if old_sync != self.is_syncing:
+            if self.is_syncing:
+                hook.fire("st_sync_started")
+            else:
+                hook.fire("st_sync_stopped")
 
         if old_sync != self.is_syncing and (self.hide_on_idle or self.show_bar):
             self.bar.draw()

@@ -11,8 +11,10 @@ programs:
 
   # System utilities
   - reflector
-  - snapper
+  - timeshift
   - grub-btrfs
+  - polkit
+  - polkit-gnome
   - ripgrep
   - fd
   - lazygit
@@ -24,6 +26,8 @@ programs:
   - arandr
   - ranger
   - feh
+  - udisks2
+  - udiskie
 
   # Document management
   - calibre
@@ -42,8 +46,6 @@ programs:
   - pamixer
   - playerctl
   - lxappearance
-  - udisks2
-  - udiskie
   - xdg-user-dirs
   - qogir-icon-theme
   - sddm-theme-tokyo-night
@@ -53,6 +55,7 @@ programs:
   - carla
   - calf
   - pasystray
+  - pavucontrol
 
   # Screenshot
   - flameshot
@@ -74,7 +77,7 @@ programs:
   - thunderbird
   - discord
   - brave-bin
-  - 1password
+  - bitwarden
   - spotify-launcher
   - qbittorrent
   - galculator
