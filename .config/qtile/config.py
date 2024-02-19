@@ -9,6 +9,7 @@ from scripts import storage
 
 MOD_KEY = "mod4"
 terminal = guess_terminal()
+scripts_dir = "/home/ramage/.config/qtile/scripts/"
 
 keys = [
     # Switch between windows
@@ -26,6 +27,9 @@ keys = [
     Key([MOD_KEY, "shift"], "d", lazy.spawn("sudo rofi -show drun")),
     Key([MOD_KEY], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
     Key([MOD_KEY], "f", lazy.window.toggle_fullscreen()),
+    
+    Key([MOD_KEY], "Prior", lazy.spawn(scripts_dir + "increment_brigthness.sh")),
+    Key([MOD_KEY], "Next", lazy.spawn(scripts_dir + "decrement_brigthness.sh")),
 
 
     Key([], "Print", lazy.spawn('flameshot gui')),
@@ -308,22 +312,6 @@ screens = [
                     },
                     **border_decoration(colors[6])
                 ),
-                # widget.MemoryGraph(
-                #     background=colors[0],
-                #     fill_color=colors[2],
-                #     frequency=0.1,
-                #     mouse_callbacks={
-                #         'Button1': lambda: qtile.spawn(f"{terminal} -e btm")
-                #     },
-                # ),
-                 widget.DF(
-                    padding=10, 
-                    background=colors[0],        
-                    foreground=colors[7],
-                    visible_on_warn=False,
-                    format="  {uf}{m}",
-                    **border_decoration(colors[3])
-                ),
                 widget.GenPollText(
                     fmt='  {}',
                     padding=15,
@@ -334,16 +322,20 @@ screens = [
                     mouse_callbacks={
                         'Button1': lambda: qtile.spawn(f"{terminal} -e btm")
                     },
+                    **border_decoration(colors[3])
+                ),
+                widget.GenPollText(
+                    fmt='  {}',
+                    padding=15,
+                    background=colors[0],
+                    foreground=colors[7],
+                    update_interval=5,
+                    func=lambda: storage.diskspace('FreeSpace', media=True),
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.spawn(f"{terminal} -e btm")
+                    },
                     **border_decoration(colors[5])
                 ),
-                # widget.CPUGraph(
-                #     background=colors[0],
-                #     fill_color=colors[2],
-                #     frequency=0.1,
-                #     mouse_callbacks={
-                #         'Button1': lambda: qtile.spawn(f"{terminal} -e btm")
-                #     },
-                # ),
                 widget.CPU(
                     padding=10,
                     format="  {load_percent}%",

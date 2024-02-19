@@ -49,8 +49,9 @@ thunderbird &
 discord &
 # telegram &
 bitwarden-desktop &
+steam-runtime &
 # pcmanfm -d &
-carla &
+# carla &
 spotify-launcher &
 
 # Start apps which requires internet connection
@@ -85,4 +86,3 @@ export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="brave"
 export SUDO_EDITOR="nvim"
-export WINEPREFIX=$HOME/home/ramage/media/.wine
