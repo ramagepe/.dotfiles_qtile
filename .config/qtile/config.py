@@ -27,7 +27,7 @@ keys = [
     Key([MOD_KEY, "shift"], "d", lazy.spawn("sudo rofi -show drun")),
     Key([MOD_KEY], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
     Key([MOD_KEY], "f", lazy.window.toggle_fullscreen()),
-    
+
     Key([MOD_KEY], "Prior", lazy.spawn(scripts_dir + "increment_brigthness.sh")),
     Key([MOD_KEY], "Next", lazy.spawn(scripts_dir + "decrement_brigthness.sh")),
 
@@ -46,6 +46,9 @@ keys = [
 
     Key([MOD_KEY, "shift"], "e", lazy.spawn(
         "pcmanfm -d"), desc="Open file explorer"),
+
+    Key([MOD_KEY, "shift"], "space", lazy.spawn(
+        scripts_dir + "toggle_keyboard_layout.sh"), desc="Toggle keyboard layout"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
@@ -421,7 +424,10 @@ def assign_app_group(client):
               "thunderbird",
               "Mail"]
     d["5"] = ["Discord", "discord"]
-    d["6"] = ["Steam", "steam"]
+    d["6"] = ["Steam",
+              "steam",
+              "Steam-runtime",
+              "steam-runtime"]
     d["7"] = ["Bitwarden",
               "bitwarden"]
     d["8"] = ["Pcmanfm",

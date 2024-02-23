@@ -76,3 +76,6 @@ alias hackernews="cd /home/ramage/code/python/projects/hackernews_scrapper && po
 # Rust tools
 alias speedtest="speedtest-rs"
 alias wiki="wiki-tui"
+
+# Grub-related commands
+alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"

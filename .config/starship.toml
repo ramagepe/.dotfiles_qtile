@@ -8,6 +8,7 @@ $git_branch\
 $git_status\
 [](fg:#394260 bg:#212736)\
 $nodejs\
+$python\
 $rust\
 $golang\
 $php\
@@ -52,6 +53,11 @@ format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
 symbol = ""
 style = "bg:#212736"
 format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[python]
+symbol = "  "
+style = "bg:#212736"
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [rust]
 symbol = ""
