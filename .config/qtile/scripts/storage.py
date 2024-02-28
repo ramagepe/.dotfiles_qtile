@@ -2,6 +2,7 @@
 
 import shutil
 
+
 def format_bytes(num_bytes):
     power = 2**10
     n = 0
@@ -11,7 +12,8 @@ def format_bytes(num_bytes):
         n += 1
     return f"{round(num_bytes, 2)}{power_labels[n]}"
 
-def diskspace(mode, media = False):
+
+def diskspace(mode, media=False):
     dir = '/home/ramage/media' if media else '/'
     total, used, free = shutil.disk_usage(dir)
     data_disk = {

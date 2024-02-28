@@ -60,7 +60,7 @@ alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
 alias emacs="emacsclient -c -a emacs &"
 
 # Feh background
-alias backg="feh --bg-scale"
+alias bg="feh --bg-scale"
 
 # Get connected usb devices
 alias usb="ls -1 /dev/sd?"
@@ -79,3 +79,9 @@ alias wiki="wiki-tui"
 
 # Grub-related commands
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+
+# Kill process
+alias kill="pkill -9"
+
+# Quick browser navigations
+alias focus="xdg-open https://o-p-e-n.com/on-demand/play/PnnPrO6imGtVQ47OXK2O?series=e7688a77-5907-4090-a951-36a6df94dcf9"

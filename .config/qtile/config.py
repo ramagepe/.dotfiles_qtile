@@ -115,7 +115,6 @@ keys = [
     #     desc="Toggle between split and unsplit sides of stack",
     # ),
     Key([MOD_KEY], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # Key([MOD_KEY, "shift"], "Return", lazy.spawn('tdrop -ma -w -4 -y "$PANEL_HEIGHT" -s dropdown kitty'), desc="Launch dropdown terminal"),
 
     # Toggle between different layouts as defined below
     Key([MOD_KEY], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -131,10 +130,10 @@ keys = [
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer --increase 5")),
 
     # Play / pause / next audio
-    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
-    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
-    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
-    Key([], "XF86AudioStop", lazy.spawn("playerctl stop")),
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl --player=spotify play-pause")),
+    Key([], "XF86AudioNext", lazy.spawn("playerctl --player=spotify next")),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl --player=spotify previous")),
+    Key([], "XF86AudioStop", lazy.spawn("playerctl --player=spotify stop")),
 
     # Hide bar
     Key([MOD_KEY], "b", lazy.hide_show_bar("all")),
@@ -390,9 +389,9 @@ screens = [
 ]
 
 
-#########################################################
-################ assgin apps to groups ##################
-#########################################################
+#########################
+# assgin apps to groups #
+#########################
 
 
 @hook.subscribe.client_new
@@ -448,9 +447,9 @@ def assign_app_group(client):
             client.togroup(group)
             client.group.toscreen()
 
-#########################################################
-###############         end             #################
-#########################################################
+##########################
+#         end            #
+##########################
 
 
 # Drag floating layouts.
@@ -487,11 +486,18 @@ floating_layout = layout.Floating(
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(wm_class="calf"),  # ssh-askpass
+        Match(wm_class='Godot'),
+        Match(wm_class='Godot_ProjectList'),
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(title='Open File'),
         Match(title='galculator'),
         Match(title='kitty'),
+        Match(title='Godot'),
+        Match(title='Open a Directory'),
+        Match(title='Godot Engine - Project Manager'),
+        # Match(title='Godot Engine'),
+        Match(title='Create New Project'),
     ]
 )
 auto_fullscreen = True
@@ -506,3 +512,10 @@ auto_minimize = False
 wl_input_rules = None
 
 wmname = "LG3D"
+
+
+@hook.subscribe.client_new
+def fullscreen(window):
+    window_title: str = window.window.get_title()
+    if window_title.endswith('Godot Engine'):
+        window.cmd_toggle_fullscreen()
