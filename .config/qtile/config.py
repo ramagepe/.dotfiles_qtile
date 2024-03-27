@@ -1,6 +1,6 @@
 from libqtile import bar, layout, hook, qtile
 # from libqtile import widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from qtile_extras import widget
@@ -47,6 +47,8 @@ keys = [
     Key([MOD_KEY, "shift"], "e", lazy.spawn(
         "pcmanfm -d"), desc="Open file explorer"),
 
+    Key([MOD_KEY, "shift"], "space", lazy.spawn(
+        scripts_dir + "toggle_keyboard_layout.sh"), desc="Toggle keyboard layout"),
     Key([MOD_KEY, "shift"], "space", lazy.spawn(
         scripts_dir + "toggle_keyboard_layout.sh"), desc="Toggle keyboard layout"),
 
@@ -175,12 +177,17 @@ for i in groups:
                 lazy.window.togroup(i.name, switch_group=True),
                 desc=f"Switch to & move focused window to group {format(i.name)}",
             ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
+            Key([MOD_KEY], "F12", lazy.group["scratchpad"].dropdown_toggle("term")),
         ]
     )
+
+# Append ScratchPad to Groups list
+groups.append(
+    ScratchPad("scratchpad", [
+        # define a drop-down terminal
+        DropDown("term", terminal, opacity=0.9, height=0.5)
+    ])
+)
 
 
 # COLORS
@@ -417,11 +424,12 @@ def assign_app_group(client):
               "brave",
               "Brave-browser",
               "brave-browser"]
-    d["3"] = ["Obsidian",
+    d["3"] = ["Postman",
+              "postman",
+              "Dbeaver",
+              "dbeaver"]
+    d["4"] = ["Obsidian",
               "obsidian"]
-    d["4"] = ["Thunderbird",
-              "thunderbird",
-              "Mail"]
     d["5"] = ["Discord", "discord"]
     d["6"] = ["Steam",
               "steam",
@@ -488,6 +496,7 @@ floating_layout = layout.Floating(
         Match(wm_class="calf"),  # ssh-askpass
         Match(wm_class='Godot'),
         Match(wm_class='Godot_ProjectList'),
+        Match(wm_class='7zFM'),
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(title='Open File'),
@@ -496,7 +505,6 @@ floating_layout = layout.Floating(
         Match(title='Godot'),
         Match(title='Open a Directory'),
         Match(title='Godot Engine - Project Manager'),
-        # Match(title='Godot Engine'),
         Match(title='Create New Project'),
     ]
 )

@@ -8,6 +8,7 @@ $git_branch\
 $git_status\
 [](fg:#394260 bg:#212736)\
 $nodejs\
+$conda\
 $python\
 $rust\
 $golang\

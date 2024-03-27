@@ -7,7 +7,9 @@ CURRENT_LAYOUT=$(xkb-switch)
 if [ "$CURRENT_LAYOUT" = "us" ]; then
   # If current layout is 'us', switch to 'es'
   setxkbmap es
+  notify-send "ES Keyboard"
 else
   # If current layout is not 'us', switch to 'us'
   setxkbmap us
+  notify-send "US Keyboard"
 fi
