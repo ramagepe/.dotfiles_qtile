@@ -81,7 +81,7 @@ alias wiki="wiki-tui"
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 
 # Kill process
-alias kill="pkill -9"
+alias kill="sudo pkill -9"
 
 # Quick browser navigations
 alias focus="xdg-open https://o-p-e-n.com/on-demand/play/PnnPrO6imGtVQ47OXK2O?series=e7688a77-5907-4090-a951-36a6df94dcf9"
@@ -91,7 +91,7 @@ alias wine32="WINEPREFIX=~/media/.wine32"
 alias wine-iso="WINEPREFIX=~/media/.wine-iso"
 
 # Connection shortcuts
-alias check-port="sudo ss -ltnp | grep "
+alias port-check="sudo ss -ltnp | grep "
 
 # File explorer shortcuts
 alias exp="pcmanfm > /dev/null 2>&1 &"

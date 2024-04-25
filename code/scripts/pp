@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Check if project name was provided
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 project_name"
+  exit 1
+fi
+
+PROJECT_NAME=$1
+
+# Create project directory and enter it
+mkdir -p "$PROJECT_NAME/src"
+cd "$PROJECT_NAME"
+
+# Create virtual environment
+uv venv
+# Activate the virtual environment; different command might be needed on Windows
+source .venv/bin/activate
+
+# Create other project files
+touch README.md
+touch src/__init__.py
+touch src/app.py
+touch main.py
+
+# Install dependencies
+uv pip install autopep8 mypy ruff
+
+# Generate requirements.txt
+uv pip freeze > requirements.txt
+
+# Create a basic .gitignore file
+echo ".venv/" > .gitignore
+echo "__pycache__/" >> .gitignore
+echo "*.pyc" >> .gitignore
+echo "*.pyo" >> .gitignore
+echo "*.pyd" >> .gitignore
+echo ".DS_Store" >> .gitignore
+
+# Initialize git repository
+git init
+
+echo "Project $PROJECT_NAME created."
