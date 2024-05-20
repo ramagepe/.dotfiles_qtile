@@ -18,6 +18,10 @@ source ~/.aliases
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
+# deno
+export DENO_INSTALL="/home/ramage/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
 # doom emacs
 export PATH=$HOME/.config/emacs/bin:$PATH
 . "$HOME/.cargo/env"

@@ -86,3 +86,6 @@ export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="brave"
 export SUDO_EDITOR="nvim"
+
+# Qt config
+export QT_QPA_PLATFORMTHEME=qt5ct

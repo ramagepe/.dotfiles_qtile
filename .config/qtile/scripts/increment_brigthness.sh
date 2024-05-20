@@ -12,7 +12,7 @@ if [ -z "$current_brightness" ] || ! [[ "$current_brightness" =~ ^[0-9]+$ ]]; th
     exit 1
 fi
 
-# Calculate the new brightness level, ensuring it doesn't go below 0
+# Calculate the new brightness level, ensuring it doesn't go above 100
 new_brightness=$((current_brightness + 10))
 if [ "$new_brightness" -gt 100 ]; then
     new_brightness=100
