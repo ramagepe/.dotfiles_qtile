@@ -1,89 +1,108 @@
 programs:
-  # Version control
-  - git
-
-  # Text editors
-  - neovim
-
-  # File management
-  - tree
-  - exa
-
-  # System utilities
-  - reflector
-  - timeshift
-  - grub-btrfs
-  - polkit
-  - polkit-gnome
-  - ripgrep
-  - fd
-  - lazygit
-  - xsel
-  - unzip
-  - zip
-  - man
-  - os-prober
-  - arandr
-  - ranger
-  - feh
-  - udisks2
-  - udiskie
-
-  # Document management
-  - calibre
-
-  # Programming languages and tools
-  - python-pip
-  - ttf-jetbrains-mono-nerd
-  - ttf-iosevka-nerd
-  - visual-studio-code-bin
-  - bottom
-  - radeontop
-
-  # Desktop environment
-  - rofi
-  - pcmanfm
-  - pamixer
-  - playerctl
-  - lxappearance
-  - xdg-user-dirs
-  - qogir-icon-theme
-  - sddm-theme-tokyo-night
-  - sddm-conf-git
-
   # Audio production
-  - carla
-  - calf
   - pasystray
   - pavucontrol
+  - rtkit
+  - yabridge
+  - yabridgectl
 
-  # Screenshot
-  - flameshot
+  # Bluetooth
+  - blueman
+  - bluez
+  - bluez-utils
+
+  # Desktop environment
+  - lxappearance
+  - noto-fonts
+  - pamixer
+  - pcmanfm
+  - playerctl
+  - qogir-icon-theme
+  - rofi
+  - sddm-conf-git
+  - sddm-theme-tokyo-night
+  - xdg-user-dirs
 
   # Display and color
   - picom
   - redshift
 
-  # Bluetooth
-  - bluez
-  - bluez-utils
-  - blueman
+  # Document management
+  - calibre
+
+  # File management
+  - exa
+  - tree
+
+  # Miscellaneous
+  - grub-customizer
+  - grub-theme-vimix
+  - i3lock-fancy-rapid-git
+  - xbanish
 
   # Network management
   - networkmanager
 
   # Productivity and communication
-  - obsidian
-  - thunderbird
-  - discord
-  - brave-bin
   - bitwarden
-  - spotify-launcher
-  - qbittorrent
+  - brave-bin
+  - discord
   - galculator
-  - gimp
+  - gnome-calculator
+  - obsidian
+  - qbittorrent
+  - spotify-launcher
   - vlc
 
-  # Miscellaneous
-  - xbanish
-  - i3lock-fancy-rapid-git
+  # Programming languages and tools
+  - bottom
+  - postman-bin
+  - python-pip
+  - radeontop
+  - ttf-iosevka-nerd
+  - ttf-jetbrains-mono-nerd
+  - visual-studio-code-bin
+
+  # Screenshot
+  - flameshot
+
+  # System utilities
+  - arandr
+  - fd
+  - feh
+  - gnome-keyring
+  - grub-btrfs
+  - inotify-tools
+  - lazygit
+  - libsecret
+  - linux-zen-headers
+  - man
+  - os-prober
+  - polkit
+  - polkit-gnome
+  - ranger
+  - reflector
+  - ripgrep
+  - timeshift
+  - udiskie
+  - udisks2
+  - unzip
+  - xsel
+  - zip
+
+  # Text editors
+  - neovim
+
+  # Version control
+  - git
+
+  # Wine
+  - lib32-gnutls
+  - lib32-gst-plugins-base
+  - lib32-gst-plugins-good
+  - lib32-pipewire
+  - lib32-sdl2
+  - wine
+  - wine-gecko
+  - wine-mono
+  - winetricks
