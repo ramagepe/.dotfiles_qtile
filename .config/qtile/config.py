@@ -491,6 +491,7 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
+        Match(role="pop-up"),
         Match(wm_class="confirm"),
         Match(wm_class="dialog"),
         Match(wm_class="download"),
@@ -517,6 +518,7 @@ floating_layout = layout.Floating(
         Match(title="Open a Directory"),
         Match(title="Godot Engine - Project Manager"),
         Match(title="Create New Project"),
+        Match(title="Steam Settings"),
     ],
 )
 auto_fullscreen = True
