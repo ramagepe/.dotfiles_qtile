@@ -20,13 +20,6 @@ case "$choice" in
     y|Y )
         echo "Installing dependencies..."
         
-        # Install stow if not already installed
-        if ! command -v stow &>/dev/null; then
-            sudo pacman -S --noconfirm stow
-        else
-            echo -e "${GREEN}stow is already installed${NC}"
-        fi
-        
         # Install curl if not already installed
         if ! command -v curl &>/dev/null; then
             sudo pacman -S --noconfirm curl
@@ -53,26 +46,6 @@ case "$choice" in
     ;;
 esac
 
-#! ---- Install rustup --------------------
-
-read -p "Do you want to install rustup? [y/N] " choice
-case "$choice" in
-    y|Y )
-        echo "Installing rustup..."
-        
-        # Install Rust using rustup if not already installed
-        if ! command -v rustup &>/dev/null; then
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-            source $HOME/.cargo/env
-        else
-            echo -e "${GREEN}rustup is already installed${NC}"
-        fi
-    ;;
-    * )
-        echo "Skipping rustup installation..."
-    ;;
-esac
-
 #! ---- Install paru --------------------
 
 read -p "Do you want to install paru? [y/N] " choice
@@ -95,6 +68,27 @@ case "$choice" in
     ;;
 esac
 
+#! ---- Install rustup --------------------
+
+read -p "Do you want to install rustup? [y/N] " choice
+case "$choice" in
+    y|Y )
+        echo "Installing rustup..."
+        
+        # Install Rust using rustup if not already installed
+        if ! command -v rustup &>/dev/null; then
+            sudo pacman -Rs --noconfirm rust
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+            source $HOME/.cargo/env
+        else
+            echo -e "${GREEN}rustup is already installed${NC}"
+        fi
+    ;;
+    * )
+        echo "Skipping rustup installation..."
+    ;;
+esac
+
 #! ---- Install nvm + node --------------
 
 read -p "Do you want to install nvm + node? [y/N] " choice
@@ -103,15 +97,24 @@ case "$choice" in
         echo "Installing nvm + node..."
         
         # Install nvm if not already installed
-        if [ ! -d "$HOME/.nvm" ]; then
+        if [ ! -d "$HOME/.config/nvm" ]; then
+            export NVM_DIR="$HOME/.config/nvm"
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-            source $HOME/.bashrc
+            
+            # Source nvm script
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
         else
             echo -e "nvm is already installed"
         fi
         
+        # Source nvm in the current session
+        export NVM_DIR="$HOME/.config/nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+        
         # Install node if not already installed
-        if [ ! -d "$HOME/.npm" ]; then
+        if ! command -v node &> /dev/null; then
             nvm install node
         else
             echo -e "node is already installed"

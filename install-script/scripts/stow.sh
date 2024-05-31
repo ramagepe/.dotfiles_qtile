@@ -8,6 +8,28 @@ echo -e "=    Stow migration    ="
 echo -e "========================"
 echo -e ""
 
+
+#! ---- Install stow --------------------
+
+read -p "Do you want to install stow? [y/N] " choice
+case "$choice" in
+    y|Y )
+        echo "Installing stow..."
+        
+        # Install stow if not already installed
+        if ! command -v stow &>/dev/null; then
+            sudo pacman -S --noconfirm stow
+        else
+            echo -e "${GREEN}stow is already installed${NC}"
+        fi
+    ;;
+    * )
+        echo "Skipping stow installation..."
+    ;;
+esac
+
+#! ---- Stow --------------------
+
 read -p "Do you want to stow? [y/N] " choice
 case "$choice" in
     y|Y )
@@ -18,16 +40,8 @@ case "$choice" in
             rm $HOME/.bashrc
         fi
         
-        if [ -f "$HOME/.xprofile" ]; then
-            rm $HOME/.xprofile
-        fi
-        
         if [ -d "$HOME/.config/qtile" ]; then
             rm -r "$HOME/.config/qtile"
-        fi
-        
-        if [ -d "$HOME/.config/redshift" ]; then
-            rm -r "$HOME/.config/redshift"
         fi
         
         # Run stow on the .dotfiles directory, ignoring pkgs and extras

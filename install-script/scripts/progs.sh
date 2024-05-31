@@ -51,6 +51,25 @@ case "$choice" in
     ;;
 esac
 
+#! ---- Install Starship --------------
+
+read -p "Do you want to install Starship? [y/N] " choice
+case "$choice" in
+    y|Y )
+        echo "Installing Starship..."
+        
+        # Install Starship if not already installed
+        if ! command -v starship &>/dev/null; then
+            curl -sS https://starship.rs/install.sh | sh -s -- --yes
+        else
+            echo -e "${GREEN}Starship is already installed${NC}"
+        fi
+    ;;
+    * )
+        echo "Skipping Starship installation..."
+    ;;
+esac
+
 #! ---- Install Lazyvim ------
 
 read -p "Do you want to install Lazyvim? [y/N]: " choice
@@ -60,15 +79,7 @@ case "$choice" in
         # Check if LazyVim is not already installed
         if [ ! -f "$HOME/.config/nvim/init.lua" ]; then
             # Remove existing Neovim directories if they exist
-            if [ -d "$HOME/.config/nvim" ]; then
-                rm -rf $HOME/.config/nvim
-            fi
-            if [ -d "$HOME/.local/share/nvim" ]; then
-                rm -rf $HOME/.local/share/nvim
-            fi
-            if [ -d "$HOME/.local/state/nvim" ]; then
-                rm -rf $HOME/.local/state/nvim
-            fi
+            rm -rf $HOME/.config/nvim $HOME/.local/share/nvim $HOME/.local/state/nvim
             
             # Clone LazyVim starter repository and remove .git directory
             git clone https://github.com/LazyVim/starter $HOME/.config/nvim
@@ -89,7 +100,7 @@ case "$choice" in
     y|Y )
         echo "Installing pynvim..."
         if ! pip show pynvim &>/dev/null; then
-            pip install pynvim
+            sudo pacman -S --noconfirm python-pynvim
             if [ $? -eq 0 ]; then
                 echo -e "${GREEN}pynvim installed successfully!${NC}"
             else
@@ -120,4 +131,3 @@ case "$choice" in
         echo "Skipping Lazyvim extensions installation..."
     ;;
 esac
-

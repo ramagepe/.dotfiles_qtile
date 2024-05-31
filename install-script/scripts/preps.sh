@@ -30,6 +30,18 @@ case "$choice" in
             echo -e "${GREEN}Reflector is already installed...${NC}"
         fi
         
+        # Install rsync if not already installed
+        if ! command -v rsync &>/dev/null; then
+            sudo pacman -S --noconfirm rsync
+            if ! command -v rsync &>/dev/null; then
+                echo -e "${RED}Failed to install rsync.${NC}"
+            else
+                echo -e "${GREEN}Rsync is now installed!${NC}"
+            fi
+        else
+            echo -e "${GREEN}Rsync is already installed...${NC}"
+        fi
+        
         echo -e ""
         echo -e "   Updating Mirrors   "
         echo -e "======================"
@@ -64,8 +76,3 @@ case "$choice" in
         echo "Skipping system update..."
     ;;
 esac
-
-
-
-
-

@@ -15,7 +15,7 @@ def format_bytes(num_bytes):
     """
     power = 2**10
     n = 0
-    power_labels = {0: '', 1: 'K', 2: 'M', 3: 'G', 4: 'T'}
+    power_labels = {0: "", 1: "K", 2: "M", 3: "G", 4: "T"}
     while num_bytes >= power:
         num_bytes /= power
         n += 1
@@ -23,10 +23,10 @@ def format_bytes(num_bytes):
 
 
 def diskspace(mode, media=False):
-    dir = '/home/ramage/media' if media else '/'
+    dir = "/home/ramage/media" if media else "/"
     total, used, free = shutil.disk_usage(dir)
     data_disk = {
-        'DiskUsage': f'{format_bytes(used)} / {format_bytes(total)}',
-        'FreeSpace': f'{format_bytes(free)}'
+        "DiskUsage": f"{format_bytes(used)} / {format_bytes(total)}",
+        "FreeSpace": f"{format_bytes(free)}",
     }
     return data_disk.get(mode, "Invalid mode specified")

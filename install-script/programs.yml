@@ -18,10 +18,13 @@ programs:
   - pcmanfm
   - playerctl
   - qogir-icon-theme
+  - arc-gtk-theme
   - rofi
   - sddm-conf-git
-  - sddm-theme-tokyo-night
+  - sddm-theme-tokyo-night-git
   - xdg-user-dirs
+  - dunst
+  - ddcutil
 
   # Display and color
   - picom
@@ -35,8 +38,6 @@ programs:
   - tree
 
   # Miscellaneous
-  - grub-customizer
-  - grub-theme-vimix
   - i3lock-fancy-rapid-git
   - xbanish
 
@@ -62,6 +63,11 @@ programs:
   - ttf-iosevka-nerd
   - ttf-jetbrains-mono-nerd
   - visual-studio-code-bin
+  - docker
+  - docker-compose
+  - docker-desktop
+  - postgresql
+  - dbeaver
 
   # Screenshot
   - flameshot
@@ -84,6 +90,7 @@ programs:
   - reflector
   - ripgrep
   - timeshift
+  - timeshift-systemd-timer
   - udiskie
   - udisks2
   - unzip
