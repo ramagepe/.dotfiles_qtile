@@ -519,6 +519,7 @@ floating_layout = layout.Floating(
         Match(title="Godot Engine - Project Manager"),
         Match(title="Create New Project"),
         Match(title="Steam Settings"),
+        Match(title="Connect to a database "),
     ],
 )
 auto_fullscreen = True
