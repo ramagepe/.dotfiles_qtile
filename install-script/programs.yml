@@ -59,6 +59,7 @@ programs:
   - bottom
   - postman-bin
   - python-pip
+  - python-uv
   - radeontop
   - ttf-iosevka-nerd
   - ttf-jetbrains-mono-nerd
@@ -78,6 +79,7 @@ programs:
   - feh
   - gnome-keyring
   - grub-btrfs
+  - grub-customizer
   - inotify-tools
   - lazygit
   - libsecret
@@ -91,11 +93,14 @@ programs:
   - ripgrep
   - timeshift
   - timeshift-systemd-timer
+  - timeshift-autosnap
   - udiskie
   - udisks2
   - unzip
   - xsel
   - zip
+  - avahi
+  - cups
 
   # Text editors
   - neovim

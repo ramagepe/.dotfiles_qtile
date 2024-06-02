@@ -36,3 +36,6 @@ export NVM_DIR="$HOME/.config/nvm"
 
 # starship
 eval "$(starship init bash)"
+
+# wine prefix
+export WINEPREFIX="$HOME/media/.wine"
