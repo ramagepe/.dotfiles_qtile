@@ -95,3 +95,10 @@ alias port-check="sudo ss -ltnp | grep "
 
 # File explorer shortcuts
 alias exp="pcmanfm > /dev/null 2>&1 &"
+
+# Docker shortcuts
+alias dup="docker-compose up --build -d"
+alias ddown="docker-compose down --rmi all --volumes"
+alias dbuild="docker-compose build --no-cache"
+alias d="docker-compose up -d"
+alias dlog="docker-compose logs -f"

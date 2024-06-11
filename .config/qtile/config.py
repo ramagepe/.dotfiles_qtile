@@ -216,15 +216,6 @@ groups.append(
 
 # COLORS
 
-# def init_colors():
-#     return [["#0f1418.7", "#0f1418.7"],     # 0 - blackground
-#             ["#1a1b26", "#1a1b26"],     # 1 - dark 80
-#             ["#24283b", "#24283b"],     # 2 - dark 70
-#             ["#414868", "#414868"],     # 3 - dark 60
-#             ["#565f89", "#565f89"],     # 4 - dark 50
-#             ["#cfc9c2", "#cfc9c2"],     # 5 - light
-#             ["#7dcfff", "#7dcfff"]]     # 6 - contrast color
-
 
 def init_colors():
     return [
