@@ -29,7 +29,7 @@ class StowMigration:
             # Run stow on the .dotfiles directory, ignoring install-script
             dotfiles_path = os.path.expanduser("~/.dotfiles")
             if not self._command_runner.run_command(
-                f"cd {dotfiles_path} && stow --ignore='install-script' ."
+                f"cd {dotfiles_path} && stow ."
             ):
                 self._printer.print_message(
                     "[red]Stow failed due to conflicts. Skipping stow.[/red]",
