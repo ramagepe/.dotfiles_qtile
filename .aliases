@@ -87,8 +87,9 @@ alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias focus="xdg-open https://o-p-e-n.com/on-demand/play/PnnPrO6imGtVQ47OXK2O?series=e7688a77-5907-4090-a951-36a6df94dcf9"
 
 # Wine related commands
-alias wine32="WINEPREFIX=~/media/.wine32"
-alias wine-iso="WINEPREFIX=~/media/.wine-iso"
+alias wine="WINEPREFIX=~/media/.wine wine"
+alias wine32="WINEPREFIX=~/media/.wine32 wine"
+alias wine-iso="WINEPREFIX=~/media/.wine-iso wine"
 
 # Connection shortcuts
 alias port-check="sudo ss -ltnp | grep "
