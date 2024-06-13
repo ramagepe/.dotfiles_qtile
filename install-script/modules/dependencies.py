@@ -31,7 +31,7 @@ class Dependencies:
     def _install_rustup(self):
         self._printer.print_message("Installing Rustup")
         if not self._command_runner.run_command("command -v rustup"):
-            self._command_runner.run_command("sudo pacman -Rs --noconfirm rust")
+            self._command_runner.run_command("pacman -Rs --noconfirm rust", sudo=True)
             self._command_runner.run_command(
                 "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
             )

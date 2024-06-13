@@ -11,14 +11,14 @@ class PackageInstaller:
 
     def _is_pacman_installed(self, package: str) -> bool:
         try:
-            self.command_runner.run_command(f"pacman -Qi {package}")
-            return True
+            result = self.command_runner.run_command(f"pacman -Qi {package}", log_error=False)
+            return result
         except CalledProcessError:
             return False
 
     def _is_paru_installed(self, package: str) -> bool:
         try:
-            self.command_runner.run_command(f"paru -Qi {package}")
+            self.command_runner.run_command(f"paru -Qi {package}", log_error=False)
             return True
         except CalledProcessError:
             return False

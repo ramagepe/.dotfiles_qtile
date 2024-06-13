@@ -26,11 +26,11 @@ class DaemonsSetup:
             self._package_installer.install_with_pacman(package)
 
             self._printer.print_message(f"Enabling {service} service...", style="green")
-            self._command_runner.run_command(f"sudo systemctl enable {service}")
-            self._command_runner.run_command(f"sudo systemctl start {service}")
+            self._command_runner.run_command(f"systemctl enable {service}", sudo=True)
+            self._command_runner.run_command(f"systemctl start {service}", sudo=True)
         except Exception as e:
             self._printer.print_message(
-                f"[red]Failed to install or enable {service}: {e}[/red]", style="red"
+                f"Failed to install or enable {service}: {e}", style="red"
             )
 
     def run_daemons_setup(self):

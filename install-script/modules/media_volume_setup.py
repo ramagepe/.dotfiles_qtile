@@ -15,11 +15,11 @@ class MediaVolumeSetup:
             with open("/etc/fstab", "a") as fstab:
                 fstab.write(fstab_entry)
             self._printer.print_message(
-                "[green]Volume added to /etc/fstab successfully![/green]", style="green"
+                "Volume added to /etc/fstab successfully!", style="green"
             )
         except Exception as e:
             self._printer.print_message(
-                f"[red]Failed to add volume to /etc/fstab: {e}[/red]", style="red"
+                f"Failed to add volume to /etc/fstab: {e}", style="red"
             )
 
     def run_media_volume_setup(self):

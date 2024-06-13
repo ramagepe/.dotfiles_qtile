@@ -6,7 +6,7 @@ class CommandRunner:
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
 
-    def run_command(self, command: str, sudo: bool = False):
+    def run_command(self, command: str, sudo: bool = False, log_error: bool = True) -> bool:
         if sudo:
             command = f"sudo {command}"
         try:
@@ -15,10 +15,14 @@ class CommandRunner:
                 command, shell=True, check=True, capture_output=True, text=True
             )
             self._log_output(process.stdout.strip())
-            return process.stdout.strip()
+            return True
         except subprocess.CalledProcessError as e:
-            self._log_error(e.stderr.strip())
-            raise
+            if log_error:
+                self._log_error(e.stderr.strip())
+            return False
+    
+    def refresh_shell_environment(self):
+        self.run_command("source /etc/profile")
 
     def clear_terminal(self):
         subprocess.run("clear", shell=True)
@@ -39,4 +43,4 @@ class CommandRunner:
         self.logger.info(f"Command output: {output}")
 
     def _log_error(self, error: str):
-        self.logger.error(f"Command failed with error: {error}")
+        self.logger.error(f"Command failed: {error}")

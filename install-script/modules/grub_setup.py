@@ -18,11 +18,11 @@ class GrubSetup:
         )
         try:
             self._command_runner.run_command(
-                f"sudo ./install.sh -t {theme} -s {resolution}"
+                f"./install.sh -t {theme} -s {resolution}", sudo=True
             )
         except Exception as e:
             self._printer.print_message(
-                f"[red]Failed to install GRUB theme: {e}[/red]", style="red"
+                f"Failed to install GRUB theme: {e}", style="red"
             )
 
     def _edit_grub_btrfsd_service(self):
@@ -35,13 +35,13 @@ class GrubSetup:
             self._file_manipulator.replace_line_in_file(
                 service_file, search_text, replace_text
             )
-            self._command_runner.run_command("sudo systemctl daemon-reload")
+            self._command_runner.run_command("systemctl daemon-reload", sudo=True)
             self._printer.print_message(
-                "[green]grub-btrfsd service edited successfully![/green]", style="green"
+                "grub-btrfsd service edited successfully!", style="green"
             )
         except Exception as e:
             self._printer.print_message(
-                f"[red]Failed to edit grub-btrfsd service: {e}[/red]", style="red"
+                f"Failed to edit grub-btrfsd service: {e}", style="red"
             )
 
     def run_grub_setup(self):

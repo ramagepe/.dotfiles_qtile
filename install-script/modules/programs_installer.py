@@ -17,7 +17,7 @@ class ProgramsInstaller:
 
         if not os.path.isfile(programs_file):
             self._printer.print_message(
-                "[red]programs.yml not found![/red]", style="red"
+                "programs.yml not found!", style="red"
             )
             return
 
@@ -32,7 +32,7 @@ class ProgramsInstaller:
                     paru_result = self._package_installer.install_with_paru(program)
                     if paru_result is None:
                         self._printer.print_message(
-                            f"[red]{program} installation failed or does not exist[/red]",
+                            f"{program} installation failed or does not exist",
                             style="red",
                         )
             else:
@@ -47,7 +47,7 @@ class ProgramsInstaller:
                 "curl -sS https://starship.rs/install.sh | sh -s -- --yes"
             ):
                 self._printer.print_message(
-                    "[red]Starship installation failed.[/red]", style="red"
+                    "Starship installation failed.", style="red"
                 )
         else:
             self._printer.print_message("Starship is already installed", style="green")
@@ -76,7 +76,7 @@ class ProgramsInstaller:
 
         self._printer.print_message("Installing Node Extension")
         if not self._command_runner.run_command("command -v npm"):
-            self._printer.print_message("[red]node is not installed[/red]", style="red")
+            self._printer.print_message("node is not installed", style="red")
         else:
             if not self._command_runner.run_command("npm list -g neovim"):
                 self._command_runner.run_command("npm install -g neovim")

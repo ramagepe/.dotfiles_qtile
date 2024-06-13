@@ -21,9 +21,9 @@ class InitialSetup:
 
     def _update_mirrors(self):
         self._printer.print_message("Updating Mirrors")
+        self._command_runner.refresh_shell_environment()
         if not self._command_runner.run_command(
-            "reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist",
-            sudo=True,
+            "reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist"
         ):
             self._printer.print_message(
                 "Updating mirrors failed. Skipping.", style="red"

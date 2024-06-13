@@ -32,12 +32,12 @@ class StowMigration:
                 f"cd {dotfiles_path} && stow ."
             ):
                 self._printer.print_message(
-                    "[red]Stow failed due to conflicts. Skipping stow.[/red]",
+                    "Stow failed due to conflicts. Skipping stow.",
                     style="red",
                 )
         except Exception as e:
             self._printer.print_message(
-                f"[red]An error occurred during stowing: {e}[/red]", style="red"
+                f"An error occurred during stowing: {e}", style="red"
             )
 
     def run_migration(self):
