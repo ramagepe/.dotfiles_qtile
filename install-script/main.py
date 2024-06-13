@@ -64,8 +64,8 @@ def run_installation(
     complete_installation = Confirm.ask("Do you want to run the complete installation?")
 
     if complete_installation:
-        dependencies.run_dependencies_installation()
         initial_setup.run_setup()
+        dependencies.run_dependencies_installation()
         stow_migration.run_migration()
         programs_installer.run_programs_installation()
         postgresql_setup.run_postgresql_setup()

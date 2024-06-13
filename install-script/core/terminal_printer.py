@@ -17,4 +17,4 @@ class TerminalPrinter:
         self._console.print(ascii_art, style="bold green")
 
     def print_message(self, message: str, style: str = "green"):
-        self._console.print(message, style=style)
+        self._console.print(f"[{style}]{message}[/{style}]", style=style)

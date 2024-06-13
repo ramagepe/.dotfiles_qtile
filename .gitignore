@@ -9,3 +9,5 @@
 .config/qtile/scripts/__pycache__/*
 .config/qtile/.vscode/
 .config/qtile/.vscode/*
+__pycache__/
+**/__pycache__/

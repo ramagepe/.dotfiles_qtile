@@ -1,6 +1,7 @@
 import logging
 import shutil
 from core.command_runner import CommandRunner
+from subprocess import CalledProcessError
 
 
 class PackageInstaller:
@@ -9,12 +10,18 @@ class PackageInstaller:
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def _is_pacman_installed(self, package: str) -> bool:
-        result = self.command_runner.run_command(f"pacman -Qs {package}")
-        return bool(result.strip())
+        try:
+            self.command_runner.run_command(f"pacman -Qi {package}")
+            return True
+        except CalledProcessError:
+            return False
 
     def _is_paru_installed(self, package: str) -> bool:
-        result = self.command_runner.run_command(f"paru -Qs {package}")
-        return bool(result.strip())
+        try:
+            self.command_runner.run_command(f"paru -Qi {package}")
+            return True
+        except CalledProcessError:
+            return False
 
     def _is_command_available(self, command: str) -> bool:
         return shutil.which(command) is not None
@@ -23,7 +30,7 @@ class PackageInstaller:
         if self._is_pacman_installed(package):
             self.logger.info(f"{package} is already installed via pacman.")
         else:
-            self.command_runner.run_command(f"sudo pacman -S --noconfirm {package}")
+            self.command_runner.run_command(f"pacman -S --noconfirm {package}", sudo=True)
             self.logger.info(f"Installed {package} via pacman.")
 
     def install_with_paru(self, package: str):

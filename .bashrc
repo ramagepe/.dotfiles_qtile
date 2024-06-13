@@ -44,3 +44,12 @@ export WINEPREFIX="$HOME/media/.wine"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# functions to mount/unmount iso files
+mount-iso() {
+	sudo mount -t udf -o loop,unhide "$1" /mnt/cdrom0
+}
+
+umount-iso() {
+	sudo umount /mnt/cdrom0
+}

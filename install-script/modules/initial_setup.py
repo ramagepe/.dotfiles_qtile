@@ -16,7 +16,7 @@ class InitialSetup:
             self._package_installer.install_with_pacman("rsync")
         except Exception as e:
             self._printer.print_message(
-                f"[red]Failed to install Reflector and Rsync: {e}[/red]", style="red"
+                f"Failed to install Reflector and Rsync: {e}", style="red"
             )
 
     def _update_mirrors(self):
@@ -26,14 +26,14 @@ class InitialSetup:
             sudo=True,
         ):
             self._printer.print_message(
-                "[red]Updating mirrors failed. Skipping.[/red]", style="red"
+                "Updating mirrors failed. Skipping.", style="red"
             )
 
     def _update_system(self):
         self._printer.print_message("Updating System")
         if not self._command_runner.run_command("pacman -Syu --noconfirm", sudo=True):
             self._printer.print_message(
-                "[red]System update failed. Skipping.[/red]", style="red"
+                "System update failed. Skipping.", style="red"
             )
 
     def run_setup(self):
