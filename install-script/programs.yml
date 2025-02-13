@@ -2,9 +2,6 @@ programs:
   # Audio production
   - pasystray
   - pavucontrol
-  - rtkit
-  - yabridge
-  - yabridgectl
 
   # Bluetooth
   - blueman
@@ -46,10 +43,9 @@ programs:
 
   # Productivity and communication
   - bitwarden
-  - brave-bin
+  - vivaldi
   - discord
   - galculator
-  - gnome-calculator
   - obsidian
   - qbittorrent
   - spotify-launcher
@@ -59,13 +55,11 @@ programs:
   - bottom
   - postman-bin
   - python-pip
-  - radeontop
   - ttf-iosevka-nerd
   - ttf-jetbrains-mono-nerd
   - visual-studio-code-bin
   - docker
   - docker-compose
-  - docker-desktop
   - postgresql
   - dbeaver
 
@@ -81,7 +75,6 @@ programs:
   - inotify-tools
   - lazygit
   - libsecret
-  - linux-zen-headers
   - man
   - os-prober
   - polkit
@@ -89,8 +82,6 @@ programs:
   - ranger
   - reflector
   - ripgrep
-  - timeshift
-  - timeshift-systemd-timer
   - udiskie
   - udisks2
   - unzip
@@ -103,13 +94,3 @@ programs:
   # Version control
   - git
 
-  # Wine
-  - lib32-gnutls
-  - lib32-gst-plugins-base
-  - lib32-gst-plugins-good
-  - lib32-pipewire
-  - lib32-sdl2
-  - wine
-  - wine-gecko
-  - wine-mono
-  - winetricks

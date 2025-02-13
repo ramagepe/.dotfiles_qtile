@@ -29,11 +29,13 @@ keys = [
         desc="Move window focus to other window",
     ),
     Key([MOD_KEY], "d", lazy.spawn("rofi -show drun")),
-    Key([MOD_KEY, "shift"], "d", lazy.spawn("sudo rofi -show drun")),
     Key([MOD_KEY], "escape", lazy.spawn("i3lock-fancy-rapid 5 3")),
+    # Key([MOD_KEY, "shift"], "escape", lazy.spawn("systemctl suspend")),
     Key([MOD_KEY], "f", lazy.window.toggle_fullscreen()),
     Key([MOD_KEY], "Prior", lazy.spawn(scripts_dir + "increment_brigthness.sh")),
     Key([MOD_KEY], "Next", lazy.spawn(scripts_dir + "decrement_brigthness.sh")),
+    Key([MOD_KEY, "shift"], "p", lazy.spawn(scripts_dir + "switch_display.sh")),
+    Key([MOD_KEY, "shift"], "d", lazy.spawn(scripts_dir + "power_menu.sh")),
     Key([], "Print", lazy.spawn("flameshot gui")),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -142,7 +144,7 @@ keys = [
     #     [MOD_KEY, "shift"],
     #     "Return",
     #     lazy.layout.toggle_split(),
-    #     desc="Toggle between split and unsplit sides of stack",
+    #     desc="Toggle between split and unsplit sides of stack",212
     # ),
     Key([MOD_KEY], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
@@ -162,6 +164,9 @@ keys = [
     Key([], "XF86AudioStop", lazy.spawn("playerctl --player=spotify stop")),
     # Hide bar
     Key([MOD_KEY], "b", lazy.hide_show_bar("all")),
+    # Screen brightness
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
 ]
 
 
@@ -172,7 +177,7 @@ group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 # group_labels = [""] * 10
 # group_labels = [""] * 10
 group_labels = [""] * 10
-group_layouts = ["monadtall" for _ in range(len(group_names))]
+group_layouts = ["max" for _ in range(len(group_names))]
 
 for i, _ in enumerate(group_names):
     groups.append(
@@ -388,6 +393,10 @@ screens = [
                     foreground=colors[7],
                     **border_decoration(colors[2]),
                 ),
+                widget.Battery(
+                    format="{percent:2.0%}",
+                ),
+                widget.BatteryIcon(),
                 widget.Systray(
                     icon_size=18,
                     background=colors[0],

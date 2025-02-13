@@ -36,3 +36,4 @@ export NVM_DIR="$HOME/.config/nvm"
 
 # starship
 eval "$(starship init bash)"
+eval "$(~/.local/bin/mise activate bash)"
