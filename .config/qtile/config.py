@@ -34,6 +34,7 @@ keys = [
     Key([MOD_KEY], "f", lazy.window.toggle_fullscreen()),
     Key([MOD_KEY], "Prior", lazy.spawn(scripts_dir + "increment_brigthness.sh")),
     Key([MOD_KEY], "Next", lazy.spawn(scripts_dir + "decrement_brigthness.sh")),
+    Key([MOD_KEY, "shift"], "p", lazy.spawn(scripts_dir + "switch_display.sh")),
     Key([], "Print", lazy.spawn("flameshot gui")),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
@@ -172,7 +173,7 @@ group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 # group_labels = [""] * 10
 # group_labels = [""] * 10
 group_labels = [""] * 10
-group_layouts = ["monadtall" for _ in range(len(group_names))]
+group_layouts = ["max" for _ in range(len(group_names))]
 
 for i, _ in enumerate(group_names):
     groups.append(
@@ -310,16 +311,16 @@ screens = [
                 widget.CurrentLayoutIcon(
                     background=colors[0], padding=10, **left_powerline
                 ),
-                widget.GroupBox(
-                    active=colors[7],
-                    inactive=colors[8],
-                    block_highlight_text_color=colors[2],
-                    highlight_method="text",
-                    this_current_screen_border=colors[2],
-                    padding=6,
-                    background=colors[0],
-                    **left_powerline,
-                ),
+                # widget.GroupBox(
+                #     active=colors[7],
+                #     inactive=colors[8],
+                #     block_highlight_text_color=colors[2],
+                #     highlight_method="text",
+                #     this_current_screen_border=colors[2],
+                #     padding=6,
+                #     background=colors[0],
+                #     **left_powerline,
+                # ),
                 widget.Spacer(
                     background=colors[0],
                     length=bar.STRETCH,

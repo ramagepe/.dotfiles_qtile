@@ -1,9 +1,12 @@
+# Declare editor variable
+editor=nvim
+
 # Replace ls with exa
 alias ls='exa -l --color=always --group-directories-first --icons'  # preferred listing
 alias la='exa -al --color=always --group-directories-first --icons' # all files and dirs
 alias ll='exa -l --color=always --group-directories-first --icons'  # long format
 alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias l.="exa -a | grep -E '^\.'"                                   # show only dotfiles
+alias l.="exa -a | grep -E '^^\."                                   # show only dotfiles
 alias ip="ip -color"
 
 # Pacman abbreviations
@@ -20,19 +23,19 @@ alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pac
 #alias nvim="lvim"
 
 # Config shortcuts
-alias config-snapper="sudo code /etc/snapper/configs"
-alias config-aliases="code ~/.aliases"
-alias config-qtile="code ~/.config/qtile"
-alias config-starship="code ~/.config/starship.toml"
-alias config-alacritty="code ~/.config/alacritty"
-alias config-autostart="code ~/.xprofile"
-alias config-picom="code ~/.config/picom/picom.conf"
-alias config-pacman="sudo code /etc/pacman.conf"
-alias config-bash="code ~/.bashrc"
-alias config-starship="code ~/.config/starship.toml"
-alias config-dotfiles="code ~/.dotfiles/install-script"
+alias config-snapper="sudo $editor /etc/snapper/configs"
+alias config-aliases="$editor ~/.aliases"
+alias config-qtile="$editor ~/.config/qtile"
+alias config-starship="$editor ~/.config/starship.toml"
+alias config-alacritty="$editor ~/.config/alacritty"
+alias config-autostart="$editor ~/.xprofile"
+alias config-picom="$editor ~/.config/picom/picom.conf"
+alias config-pacman="sudo $editor /etc/pacman.conf"
+alias config-bash="$editor ~/.bashrc"
+alias config-starship="$editor ~/.config/starship.toml"
+alias config-dotfiles="$editor ~/.dotfiles/install-script"
 
-# Debugging shorcuts
+# Debugging shortcuts
 alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
 
 # Logs shortcuts
@@ -62,10 +65,10 @@ alias emacs="emacsclient -c -a emacs &"
 # Feh background
 alias bg="feh --bg-scale"
 
-# Get connected usb devices
+# Get connected USB devices
 alias usb="ls -1 /dev/sd?"
 
-# Get hardware ingormation
+# Get hardware information
 alias info-gpu="radeontop"
 alias info-mother="sudo dmidecode -t baseboard"
 alias info-cpu="lscpu"
@@ -95,3 +98,6 @@ alias port-check="sudo ss -ltnp | grep "
 
 # File explorer shortcuts
 alias exp="pcmanfm > /dev/null 2>&1 &"
+
+# Run display change script
+alias switch-display="~/.config/qtile/scripts/switch_display.sh"

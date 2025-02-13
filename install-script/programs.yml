@@ -25,6 +25,7 @@ programs:
   - xdg-user-dirs
   - dunst
   - ddcutil
+  - tokyonight-gtk-theme-git
 
   # Display and color
   - picom
@@ -40,6 +41,7 @@ programs:
   # Miscellaneous
   - i3lock-fancy-rapid-git
   - xbanish
+  - solaar
 
   # Network management
   - networkmanager
