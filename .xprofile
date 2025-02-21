@@ -84,7 +84,7 @@ export XDG_DATA_HOME=$HOME/.local/share
 # Environment variables set everywhere
 export EDITOR="nvim"
 export TERMINAL="alacritty"
-export BROWSER="brave"
+export BROWSER="vivaldi-stable"
 export SUDO_EDITOR="nvim"
 
 # Qt config

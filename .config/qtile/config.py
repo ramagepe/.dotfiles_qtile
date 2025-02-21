@@ -1,11 +1,11 @@
 from libqtile import bar, layout, hook, qtile
 
 # from libqtile import widget
+from qtile_extras import widget
+from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoration
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from qtile_extras import widget
-from qtile_extras.widget.decorations import BorderDecoration, PowerLineDecoration
 from scripts import storage
 
 MOD_KEY = "mod4"

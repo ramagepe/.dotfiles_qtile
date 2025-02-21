@@ -11,6 +11,7 @@ export PATH=$HOME/.local/bin:$PATH
 PS1='[\u@\h \W]\$ '
 
 source ~/.aliases
+export $(grep -v '^#' ~/.env | xargs)
 
 # bun
 export BUN_INSTALL="$HOME/.bun"

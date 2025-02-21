@@ -103,6 +103,7 @@ alias dbuild="docker-compose build --no-cache"
 alias d="docker-compose up -d"
 alias dlog="docker-compose logs -f"
 alias dni="docker inspect network"
+alias lzd="lazydocker"
 
 # Print my ip
 alias myip="curl ifconfig.me"
