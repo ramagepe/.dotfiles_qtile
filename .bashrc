@@ -7,6 +7,7 @@
 
 # Define paths
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
 
 PS1='[\u@\h \W]\$ '
 
@@ -23,6 +24,7 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 
 # doom emacs
 export PATH=$HOME/.config/emacs/bin:$PATH
+export PATH="$HOME/.emacs.d/bin:$PATH"
 
 # rustup
 . "$HOME/.cargo/env"
@@ -37,3 +39,10 @@ export NVM_DIR="$HOME/.config/nvm"
 
 # starship
 eval "$(starship init bash)"
+eval "$(~/.local/bin/mise activate bash)"
+export HOMELAB_DIR="/home/ramage/code/homelab-remote/homelab"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/ramage/.lmstudio/bin"
+# End of LM Studio CLI section
+

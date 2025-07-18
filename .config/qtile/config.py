@@ -1,3 +1,4 @@
+import re
 from libqtile import bar, layout, hook, qtile
 
 # from libqtile import widget
@@ -264,7 +265,18 @@ borderless_layout = init_layout_theme(0, 0)
 layouts = [
     layout.MonadTall(**border_layout),
     layout.Max(**border_layout),
-    # layout.MonadTall(**borderless_layout),
+    # layout.Matrix(**border_layout),
+    # layout.MonadWide(**border_layout),
+    # layout.RatioTile(**border_layout),
+    # layout.Tile(shift_windows=True, **border_layout),
+    # layout.TreeTab(**border_layout),
+    # layout.VerticalTile(**border_layout),
+    # layout.Zoomy(**border_layout),
+    # layout.Floating(**borderless_layout),
+    # layout.Bsp(**border_layout),
+    # layout.Columns(**border_layout),
+    # layout.Stack(num_stacks=3, **border_layout),
+    # layout.Stack(num_stacks=4, **border_layout),
     # layout.Max(**borderless_layout),
 ]
 
@@ -542,3 +554,18 @@ def fullscreen(window):
     window_title: str = window.window.get_title()
     if window_title.endswith("Godot Engine"):
         window.cmd_toggle_fullscreen()
+
+
+PLUGIN_TITLE = re.compile(r"\b(VST3?|LV2|CLAP|Audio[ _]?Unit|AU)\b", re.I)
+
+
+# Treat every VST window as a floating window.
+@hook.subscribe.client_new
+def float_plugins(win):
+    if (
+        win.window.get_wm_transient_for()  # child of DAW frame
+        or win.window.get_wm_type() in {"dialog", "utility", "splash", "toolbar"}
+        or PLUGIN_TITLE.search(win.name or "")  # title contains VST/LV2/…
+    ):
+        win.floating = True
+        win.center()  # optional: pop up centred

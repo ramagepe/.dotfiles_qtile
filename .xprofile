@@ -35,7 +35,10 @@ udiskie &
 dunst &
 
 # Emacs server
-#/usr/bin/emacs --daemon
+doom run --daemon
+
+# Solaar
+solaar &
 
 # Start polkit
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &

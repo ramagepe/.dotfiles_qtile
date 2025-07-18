@@ -1,12 +1,22 @@
 # Declare editor variable
-editor=nvim
+if [ -n "$BASH_VERSION" ] || [ -n "$ZSH_VERSION" ]; then
+    # Bash or Zsh
+    if [ "$SHELL" = "/usr/bin/fish" ] || [ "$SHELL" = "/bin/fish" ]; then
+        export editor="nvim"
+    else
+        export editor="nvim"
+    fi
+elif [ -n "$FISH_VERSION" ]; then
+    # Fish shell
+    set -Ux editor nvim
+fi
 
 # Replace ls with exa
 alias ls='exa -l --color=always --group-directories-first --icons'  # preferred listing
 alias la='exa -al --color=always --group-directories-first --icons' # all files and dirs
 alias ll='exa -l --color=always --group-directories-first --icons'  # long format
 alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias l.="exa -a | grep -E '^^\."                                   # show only dotfiles
+# alias lg="exa -a | grep -E '^^\."                                   # show only dotfiles
 alias ip="ip -color"
 
 # Pacman abbreviations
@@ -23,17 +33,17 @@ alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pac
 #alias nvim="lvim"
 
 # Config shortcuts
-alias config-snapper="sudo $editor /etc/snapper/configs"
-alias config-aliases="$editor ~/.aliases"
-alias config-qtile="$editor ~/.config/qtile"
-alias config-starship="$editor ~/.config/starship.toml"
-alias config-alacritty="$editor ~/.config/alacritty"
-alias config-autostart="$editor ~/.xprofile"
-alias config-picom="$editor ~/.config/picom/picom.conf"
-alias config-pacman="sudo $editor /etc/pacman.conf"
-alias config-bash="$editor ~/.bashrc"
-alias config-starship="$editor ~/.config/starship.toml"
-alias config-dotfiles="$editor ~/.dotfiles/install-script"
+alias config-snapper="sudo \$editor /etc/snapper/configs"
+alias config-aliases="\$editor ~/.aliases"
+alias config-qtile="\$editor ~/.config/qtile"
+alias config-starship="\$editor ~/.config/starship.toml"
+alias config-alacritty="\$editor ~/.config/alacritty"
+alias config-autostart="\$editor ~/.xprofile"
+alias config-picom="\$editor ~/.config/picom/picom.conf"
+alias config-pacman="sudo \$editor /etc/pacman.conf"
+alias config-bash="\$editor ~/.bashrc"
+alias config-starship="\$editor ~/.config/starship.toml"
+alias config-dotfiles="\$editor ~/.dotfiles/install-script"
 
 # Debugging shortcuts
 alias debug-qtile="nvim ~/.local/share/qtile/qtile.log"
@@ -60,7 +70,8 @@ alias snap-delete-home="sudo snapper -c home delete"
 alias net-services="avahi-browse --all --ignore-local --resolve --terminate"
 
 # Emacs client
-alias emacs="emacsclient -c -a emacs &"
+alias emacs="emacsclient -c &"
+alias emacst="emacsclient -t"
 
 # Feh background
 alias bg="feh --bg-scale"
@@ -101,3 +112,35 @@ alias exp="pcmanfm > /dev/null 2>&1 &"
 
 # Run display change script
 alias switch-display="~/.config/qtile/scripts/switch_display.sh"
+
+# Docker shortcuts
+alias dup="docker compose up --build -d"
+alias ddown="docker compose down --rmi all --volumes"
+alias dbuild="docker compose build --no-cache"
+alias d="docker compose up -d"
+alias dlog="docker compose logs -f"
+alias dni="docker inspect network"
+alias lzd="lazydocker"
+
+
+# commands
+alias myip="curl ifconfig.me"
+
+alias ee="exit"
+
+# Git shortcuts
+alias lzg="lazygit"
+
+# Cursor
+alias crs="cursor . > /dev/null 2>&1 &"
+
+# Connect to server
+alias hl-connect="ssh ramage@homelab.local"
+
+# Mount server media
+alias hl-mount="sshfs ramage@homelab.local:/srv/media ~/plex-media"
+
+alias st="gdu"
+alias clean-cache="sudo paccache -rvk2"
+
+alias scanfile="clamscan --infected --recursive --remove=no"
