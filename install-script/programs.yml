@@ -1,7 +1,6 @@
 programs:
   # Audio production
   - pasystray
-  - pavucontrol
   - rtkit
   - yabridge
   - yabridgectl
@@ -14,22 +13,16 @@ programs:
   # Desktop environment
   - lxappearance
   - noto-fonts
-  - pamixer
   - pcmanfm
-  - playerctl
   - qogir-icon-theme
   - arc-gtk-theme
   - rofi
   - sddm-conf-git
   - sddm-theme-tokyo-night-git
-  - xdg-user-dirs
-  - dunst
-  - ddcutil
   - tokyonight-gtk-theme-git
 
   # Display and color
   - picom
-  - redshift
 
   # Document management
   - calibre
@@ -40,7 +33,7 @@ programs:
 
   # Miscellaneous
   - i3lock-fancy-rapid-git
-  - xbanish
+  # - xbanish
   - solaar
 
   # Network management
@@ -48,10 +41,8 @@ programs:
 
   # Productivity and communication
   - bitwarden
-  - brave-bin
   - discord
   - galculator
-  - gnome-calculator
   - obsidian
   - qbittorrent
   - spotify-launcher
@@ -63,11 +54,10 @@ programs:
   - python-pip
   - radeontop
   - ttf-iosevka-nerd
-  - ttf-jetbrains-mono-nerd
   - visual-studio-code-bin
-  - docker
-  - docker-compose
   - docker-desktop
+  - lazydocker
+  - lazygit
   - postgresql
   - dbeaver
 
@@ -78,19 +68,15 @@ programs:
   - arandr
   - fd
   - feh
-  - gnome-keyring
   - grub-btrfs
   - inotify-tools
-  - lazygit
   - libsecret
   - linux-zen-headers
   - man
   - os-prober
   - polkit
-  - polkit-gnome
   - ranger
   - reflector
-  - ripgrep
   - timeshift
   - timeshift-systemd-timer
   - udiskie
@@ -106,12 +92,4 @@ programs:
   - git
 
   # Wine
-  - lib32-gnutls
-  - lib32-gst-plugins-base
-  - lib32-gst-plugins-good
-  - lib32-pipewire
-  - lib32-sdl2
-  - wine
-  - wine-gecko
-  - wine-mono
-  - winetricks
+  - bottles

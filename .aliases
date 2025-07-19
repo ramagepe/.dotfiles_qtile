@@ -1,15 +1,17 @@
-# Declare editor variable
-if [ -n "$BASH_VERSION" ] || [ -n "$ZSH_VERSION" ]; then
-    # Bash or Zsh
-    if [ "$SHELL" = "/usr/bin/fish" ] || [ "$SHELL" = "/bin/fish" ]; then
-        export editor="nvim"
-    else
-        export editor="nvim"
-    fi
-elif [ -n "$FISH_VERSION" ]; then
-    # Fish shell
-    set -Ux editor nvim
-fi
+# # Declare editor variable
+# if [ -n "$BASH_VERSION" ] || [ -n "$ZSH_VERSION" ]; then
+#     # Bash or Zsh
+#     if [ "$SHELL" = "/usr/bin/fish" ] || [ "$SHELL" = "/bin/fish" ]; then
+#         export editor="nvim"
+#     else
+#         export editor="nvim"
+#     fi
+# elif [ -n "$FISH_VERSION" ]; then
+#     # Fish shell
+#     set -Ux editor nvim
+# fi
+
+set -Ux editor nvim
 
 # Replace ls with exa
 alias ls='exa -l --color=always --group-directories-first --icons'  # preferred listing
